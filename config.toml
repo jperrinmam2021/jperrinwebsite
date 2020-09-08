@@ -1,7 +1,7 @@
 # Site settings
-baseURL = "http://example.org/"
+baseURL = "https://jperrinmam2021.netlify.app"
 languageCode = "en-us"
-title = "Forty"
+title = "Portfolio website for Joseph Perrin"
 theme = "forty"
 
 # Enter your tracking code to enable Google Analytics
@@ -19,8 +19,8 @@ disqusShortname = ""
   # CSS class.
 
   # Provide your metadata here.
-  name = "Your name"
-  description = "Your description"
+  name = "Joseph Perrin"
+  description = "Dear Reader, my name is Joseph Perrin, I am 22 years-old french student. I recently started my Master in Analytics and Management at London Business School."
 
   # Link custom assets relative to /static
   custom_css = []
@@ -37,7 +37,7 @@ disqusShortname = ""
 
   # Navigation Section
   [params.navigation]
-    title = "Forty"
+    #title = "Forty"
     subtitle = "By HTML5 Up"
     menu = "Menu"
     # Optional logo as brand stored in img/
@@ -47,11 +47,11 @@ disqusShortname = ""
       name = "Home"
       url = "#"
 
-    [[params.navigation.links]]
+    #[[params.navigation.links]]
       name = "Blogs"
       url = "blogs"
 
-    [[params.navigation.links]]
+    #[[params.navigation.links]]
       name = "Generic Blog"
       url = "blogs/ipsum"
 
@@ -172,50 +172,50 @@ disqusShortname = ""
     # by copying the corresponding map with frontmatter code.
     [[params.contact.email]]
     title = "Email"
-    email = "example@domain.com"
+    email = "jperrin.mam2021@london.edu"
 
     [[params.contact.phone]]
     title = "Phone"
-    phone = "(000) 000-0000 x1234"
+    phone = "+33 6 77 07 16 20"
 
     [[params.contact.address]]
-    title = "Address"
-    street = "Street"
-    city = "City, ST 00000"
-    country = "Country"
+    title = "London Business School"
+    street = "Regent's Park"
+    city = "London, NW1 4SA"
+    country = "United Kingdom"
 
   # Footer section
-  [params.footer]
-    enable = true
-    copyright = "Company Name"
+ # [params.footer]
+  #  enable = true
+   # copyright = "Company Name"
 
     # Uses font awesome icons
-    [[params.footer.social]]
-      icon = "fa-twitter"
-      url= "https://www.twitter.com"
-      label = "Twitter"
+#    [[params.footer.social]]
+ #     icon = "fa-twitter"
+  #    url= "https://www.twitter.com"
+   #   label = "Twitter"
 
-    [[params.footer.social]]
-      icon = "fa-facebook"
-      url= "https://www.facebook.com"
-      label = "Facebook"
+#    [[params.footer.social]]
+ #     icon = "fa-facebook"
+  #    url= "https://www.facebook.com"
+   #   label = "Facebook"
 
-    [[params.footer.social]]
-      icon = "fa-instagram"
-      url= "https://www.instagram.com"
-      label = "Instagram"
+#    [[params.footer.social]]
+ #     icon = "fa-instagram"
+  #    url= "https://www.instagram.com"
+   #   label = "Instagram"
     
-    [[params.footer.social]]
-      icon = "fa-github"
-      url= "https://www.github.com"
-      label = "GitHub"
+#    [[params.footer.social]]
+ #     icon = "fa-github"
+  #    url= "https://www.github.com"
+   #   label = "GitHub"
 
-    [[params.footer.social]]
-      icon = "fa-linkedin"
-      url= "https://www.linkedin.com"
-      label = "LinkedIn"
+#    [[params.footer.social]]
+ #     icon = "fa-linkedin"
+   #   label = "LinkedIn"
+  #    url= "https://www.linkedin.com"
 
-    [[params.footer.quicklinks]]
-      text = "Design: "
-      url= "https://www.html5up.net"
-      alt = "HTML5 UP"
+#    [[params.footer.quicklinks]]
+ #     text = "Design: "
+  #    url= "https://www.html5up.net"
+   #   alt = "HTML5 UP"
