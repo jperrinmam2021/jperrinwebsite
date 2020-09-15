@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Forty</title>
+    <title>Portfolio website for Joseph Perrin</title>
     <link>/</link>
-    <description>Recent content on Forty</description>
+    <description>Recent content on Portfolio website for Joseph Perrin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Oct 2017 22:42:51 -0500</lastBuildDate>
@@ -48,7 +48,7 @@
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
+      <title>Website Joseph</title>
       <link>/post/2015-07-23-r-rmarkdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       

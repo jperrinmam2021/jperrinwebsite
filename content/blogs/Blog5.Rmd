@@ -1,15 +1,14 @@
 ---
-title: "NYT Mask Use Acceptance"
-author: "Your name goes here"
-date: "`r Sys.Date()`"
-output:
-  html_document:
-    highlight: zenburn
-    theme: flatly
-    toc: yes
-    toc_float: yes
-  word_document:
-    toc: yes
+categories: 
+_""
+_""
+date: "2020-09-15"
+description: Is Mask acceptance high in the US ?.
+draft: false
+image: pic07.jpg
+keywords: ""
+slug: blog5
+title: Mask Acceptance
 ---
 
 
@@ -52,9 +51,9 @@ Github source for data https://github.com/nytimes/covid-19-data/tree/master/mask
 ## Getting the data 
 
 ```{r, read_data}
-#Source for data url <- "https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv"
+url <- "https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv"
 
-nyt_mask_survey <- read_csv(here::here("data", "nyt_mask_survey.csv"))
+nyt_mask_survey <- read_csv(url)
 
 nyt_mask_survey <- nyt_mask_survey %>%
   clean_names() %>% 
