@@ -1,5 +1,5 @@
 # Site settings
-baseURL = "https://jperrinmam2021.netlify.app"
+baseURL = "https://jperrinmam2021.netlify.app/"
 languageCode = "en-us"
 title = "Portfolio website for Joseph Perrin"
 theme = "forty"
