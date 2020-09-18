@@ -1,0 +1,81 @@
+---
+title: "Temperature Analysis"
+author: "Joseph"
+date: "9/15/2020"
+output: html_document
+
+#to be completed with information like Blog5
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+Let's load the libraries
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(infer)
+```
+
+
+
+
+# Climate change and temperature anomalies 
+
+
+If we wanted to study climate change, we can find data on the *Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies* in the Northern Hemisphere at [NASA's Goddard Institute for Space Studies](https://data.giss.nasa.gov/gistemp). The [tabular data of temperature anomalies can be found here](https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt)
+
+To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.
+
+Run the code below to load the file:
+
+```{r weather_data, cache=TRUE}
+
+weather2<- 
+  vroom::vroom("https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv", 
+           skip = 1, 
+           na = "***")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

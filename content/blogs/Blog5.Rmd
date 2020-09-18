@@ -51,9 +51,8 @@ Github source for data https://github.com/nytimes/covid-19-data/tree/master/mask
 ## Getting the data 
 
 ```{r, read_data}
-url <- "https://github.com/nytimes/covid-19-data/raw/master/mask-use/mask-use-by-county.csv"
 
-nyt_mask_survey <- read_csv(url)
+nyt_mask_survey <- read_csv(nyt_mask_survey.csv)
 
 nyt_mask_survey <- nyt_mask_survey %>%
   clean_names() %>% 
