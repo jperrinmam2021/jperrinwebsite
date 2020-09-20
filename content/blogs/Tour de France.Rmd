@@ -152,12 +152,12 @@ Longtime Tour watchers would immediately recognize this Tour as the "Tour du Dop
 
 ```{r ataglance winner country, echo=FALSE, warning=FALSE}
 # Identify all the champions who have won the Tour de France more than once
-mWinner <- unique(ataglance$Winner[duplicated(ataglance$Winner)])
+mWinner <- unique(tourdefrance$Winner[duplicated(tourdefrance$Winner)])
 mWinner <- mWinner[!is.na(mWinner)]
-ataglance$multiWinner[which(ataglance$Winner %in% mWinner)] <- as.character(ataglance$Winner[ataglance$Winner %in% mWinner])
+tourdefrance$multiWinner[which(tourdefrance$Winner %in% mWinner)] <- as.character(tourdefrance$Winner[tourdefrance$Winner %in% mWinner])
 # Reorder the Country to go from most to least wins
-ataglance$Country <- fct_infreq(ataglance$Country)
-ggplot(data = ataglance) + geom_bar(aes(x = Country, fill = multiWinner)) +
+tourdefrance$Country <- fct_infreq(tourdefrance$Country)
+ggplot(data = tourdefrance) + geom_bar(aes(x = Country, fill = multiWinner)) +
   ggtitle('Distribution of Wins Among Countries') + ylab('# of Champions') + 
   theme(plot.title = element_text(hjust = 0.5), legend.position="none")
 ```
@@ -178,7 +178,7 @@ The overall Tour de France is won by the cyclist that has the fastest culmulativ
 
 ```{r stagedetails, echo=FALSE, warning=FALSE}
 # Historic Tour De France Dataset from Kaggle
-stage_details <- read.csv2(file = '../input/tour-de-france-historical-tour-2018/stages_TDF.csv', header = TRUE, sep = ',', stringsAsFactors = TRUE, encoding = 'UTF-8')
+stage_details <- read_csv("/Users/josephperrin/Desktop/London Business School/jperrinwebsite/data/stages_TDF.csv")
 # add year column for stage_details
 # summary(stage_details)
 stage_details$Year <- as.numeric(str_sub(stage_details$Date, -4, -1))
@@ -296,47 +296,6 @@ We can also look at the distribution of stage types across the years. We see tha
 
 Interestingly, the longest modern stage is shorter than even the shortest stage during the pre-WWI Tour de France. The Tour has changed dramatically over the years!
 
-#### Popular Cities Visited during the Tour de France
-
-![](https://storage.googleapis.com/kagglesdsdata/datasets/52848/100269/France_map_plot.png?GoogleAccessId=web-data@kaggle-161607.iam.gserviceaccount.com&Expires=1537248146&Signature=Q1JBEsrMzr5fjkGJ5WQBugHDsijKkXxCf%2F%2BULBhk%2Be8MsjxA8TREi9cpdWQwHWz%2BFiotUBIC8MU6xAoj4WGUfcj9GCVYxy9yg3jRv7jNQHO7FflrtMt6l8RFG9IHwMUr%2FBztJj6zuaw0NpW8RMMGc1g0cRC0ZWVamxmd9BXzeNkgehpKMCDUWhtoc78%2FpIs6xWJcIvSOqmVWuRXXIdlbx2OcSUQTz3q3r6UGzYY98QEA%2BT4pHuGj8tliPdMwPESwFkhJK5o2NH0S6nMpnZ58k6egRMyBIPntrMs98CM6FmlZOpZ%2F0FKI2Nlf8kL6zghbjDMUmBepXXVjAfQZDyuZTA%3D%3D)
-
-```{r stagedetails maps, echo=FALSE, warning=FALSE, message=FALSE}
-library(ggmap)
-library(ggalt)
-
-france <- data.frame('lon' = 2.213749, 'lat' = 46.22764)  # get longitude and latitude
-france_ggl_map <- qmap("france", zoom=5, source = "google", maptype="roadmap")
-unique_stage_loc <- unique(union(stage_details$Origin, stage_details$Destination))
-unique_stage_geocode <- read.csv2('../input/tour-de-france-historical-tour-2018/unique_stage_geocode.csv', header = TRUE, quote = "", sep = ';', stringsAsFactors = TRUE, encoding = 'UTF-16')
-
-#for(i in 1:length(unique_stage_loc)){
-#  if (is.na(unique_stage_geocode[i,3]) == TRUE){
-#    unique_stage_geocode[i,3:4] <- geocode(unique_stage_loc[i])
-#    Sys.sleep(1.250)
-#  }
-#}
-#write.csv2(unique_stage_geocode[,2:4],'unique_stage_geocode.csv')
-
-stage_loc_origin <- data.frame(stage_details$Origin, stringsAsFactors = FALSE)
-names(stage_loc_origin) <- 'City'
-stage_loc_dest <- data.frame(stage_details$Destination, stringsAsFactors = FALSE)
-names(stage_loc_dest) <- 'City'
-stage_loc_origin <- merge(stage_loc_origin, unique_stage_geocode, by = 'City')
-stage_loc_dest <- merge(stage_loc_dest, unique_stage_geocode, by = 'City')
-france_ggl_map + geom_point(data = stage_loc_origin, aes(x=lon, y=lat), alpha = 0.2, size = 2, color = "tomato") +
-  geom_point(data = stage_loc_dest, aes(x=lon, y=lat), alpha = 0.2, size = 2, color = "tomato") +
-  geom_encircle(aes(x=lon, y=lat))
-```
-
-Unsurprisingly, we see a big, opaque cluster of red around Paris. The capital of France is a highly popular starting point as well as ending point for various stages in the Tour de France. Furthermore, many flat stage time trials take place in this city. How exciting!
-
-We also notice various red dots in other courtries such as Belgium, Switzerland, and Italy. Over the years, the Tour de France has held stages in many neighboring countries. Upon closer inspection, we also notice a big cluster of red dots around the border of France, Switzerland, and Italy, on the patch of green. What could possibly be this popular stage location?
-
-It turns out this is where the famous Alpe d'Huez is located! This location has been used as a mountain stage in the Tour de France (even twice in the same day in 2013!) This famous climb has an average gradient of 8.1%, maximum gradient of 13%, and is a 13.8 km climb through 21 hairpin turns (named after the winner of stages) up to a the summit at 1860 meters.
-
-**Records**  
-Fastest Alpe d'Huez Ascent: *Alberto Contador (37' 30") during the 2010 Critérium du Dauphiné*  
-First Alpe d'Huez Stage Winner: *Fausto Coppi (1952)*
 
 ### Conclusion and Next Steps
 
