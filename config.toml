@@ -95,25 +95,25 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "blogs/tourdefrance"
+      url = "public/blogs/tourdefrance"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
       subtitle = "How did global temperature evolve since the 19th century ?"
       image = "climatechange.jpg"
-      url = "blogs/temperatureanalysis"
+      url = "public/blogs/temperatureanalysis"
 
     [[params.tiles.showcase]]
       title = "Covid-19 Analysis"
       subtitle = "How does morbidity and admittance to ICU influence Covid-19 death rate"
       image = "covid.jpg"
-      url = "blogs/covid"
+      url = "public/blogs/covid"
 
     [[params.tiles.showcase]]
       title = "IMDB Rating Analysis"
       subtitle = "Is the difference in rating of movie directors statistically significant?"
       image = "lighthouse.jpg"
-      url = "blogs/imdb"
+      url = "public/blogs/imdb"
 
     #[[params.tiles.showcase]]
      # title = "Consequat"
