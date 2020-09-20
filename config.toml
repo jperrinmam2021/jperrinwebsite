@@ -74,7 +74,7 @@ disqusShortname = ""
     #Button Style 2
     [[params.navigation.button2]]
      name = "About me"
-     url = "#"
+     url = "blogs/blog2"
 
 
   # Banner section
@@ -139,11 +139,12 @@ disqusShortname = ""
   [params.two]
     enable = true
     title = "About me"
-    subtitle =   """My name is Joseph Perrin, I am 22 years-old french student. I recently started my Master in Analytics and Management at London Business School.
-   In today’s data driven world, I am determined to understand the dynamics of business analytics and learn how to consolidate, visualise and analyse data in a comparative approach. The MSc in Analytics and Management enables me to gain hands-on experience, diving into the spectrum of data analytics methods to create valuable output for any company and its environment.  
+    subtitle =   """My name is Joseph Perrin, I am 22 years-old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
+   
+   In today’s data driven world, I am determined to understand the dynamics of business analytics and learn how to consolidate, visualise and analyse data in a comparative approach. My master at LBS enables me to gain hands-on experience, diving into the spectrum of data analytics methods to create valuable output for any company and its environment.  
     """
     buttonText = "More about me"
-    url = "blogs"
+    url = "blogs/blog2"
 
 
   # Contact section
