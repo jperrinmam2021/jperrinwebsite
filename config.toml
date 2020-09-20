@@ -71,10 +71,10 @@ disqusShortname = ""
       name = "My Work"
       url = "blogs"
 
-    # Button Style 2
-    #[[params.navigation.button2]]
-     # name = "Log In"
-     # url = "#"
+    Button Style 2
+    [[params.navigation.button2]]
+     name = "About me"
+     url = "#"
 
 
   # Banner section
@@ -110,8 +110,8 @@ disqusShortname = ""
       url = "blogs/covid"
 
     [[params.tiles.showcase]]
-      title = "IMDB rating analysis"
-      subtitle = "Nisl Sed Aliquam"
+      title = "IMDB Rating Analysis"
+      subtitle = "Is the difference in rating of movie directors statistically significant?"
       image = "lighthouse.jpg"
       url = "blogs/imdb"
 
