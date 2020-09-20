@@ -1,0 +1,596 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Dear Reader, my name is Joseph Perrin, I am 22 years-old french student. I recently started my Master in Analytics and Management at London Business School.">
+	<meta name="author" content="Joseph Perrin">
+	<meta name="generator" content="Hugo 0.74.3" />
+	<title>Temperature Variation Analysis &middot; Portfolio website for Joseph Perrin</title>
+	<!-- Stylesheets -->
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	
+	
+
+	
+
+	<!-- Custom Fonts -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/ie/html5shiv.js"></script>
+	<script src="js/ie/html5shiv.jsrespond.min.js"></script>
+	<![endif]-->
+</head>
+
+    <body>
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+    <header id="header" class="alt">
+        <a href="/" class="logo"><strong></strong> <span>Joseph Perrin</span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+<!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            
+                <li><a href="/">Home</a></li>
+            
+
+        </ul>
+        <ul class="actions vertical">
+            
+                <li><a href="/pages" class="button special fit">My Work</a></li>
+            
+            
+                <li><a href="/pages/aboutme" class="button fit">About me</a></li>
+            
+        </ul>
+    </nav>
+
+        <!-- Main -->
+            <div id="main" class="alt">
+
+                
+                    <section id="one">
+                        <div class="inner">
+                            <header class="major">
+                                <h1>Temperature Variation Analysis</h1>
+                            </header>
+                            
+                                <span class="image main"><img src="/img/blogs/pic07.jpg" alt="" /></span>
+                            
+                            
+
+
+<p>Let’s load the libraries</p>
+<div id="climate-change-and-temperature-anomalies" class="section level1">
+<h1>Climate change and temperature anomalies</h1>
+<p>With the year 2019 concluding the ‘hotest’ decade since 1850, when global temperature started to be recorded, the year 2020 is subject to the same phenomenon. While scientists are becoming more and more alarmist, the predictions of temperature evolution are inreasingly pessimistic. Let us have a look at the variation of the weather since 1880.
+For this purpose, we can find data on the <em>Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies</em> in the Northern Hemisphere at <a href="https://data.giss.nasa.gov/gistemp">NASA’s Goddard Institute for Space Studies</a>. The <a href="https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt">tabular data of temperature anomalies can be found here</a>. For each month and year, the dataframe shows the deviation of temperature from the normal (expected).</p>
+<p>We run the code below allows to access the file:</p>
+<pre class="r"><code>weather &lt;- 
+  vroom::vroom(&quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&quot;, #read data
+           skip = 1, 
+           na = &quot;***&quot;)</code></pre>
+<p>We start by selecting selected the year and the twelve month variables from the <code>weather</code> dataset.</p>
+<pre class="r"><code>tidyweather &lt;- weather %&gt;%
+  select(&quot;Year&quot;,&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;,&quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;) 
+#selecting the columns we need
+kable(head(tidyweather,5)) #visalise </code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Year
+</th>
+<th style="text-align:right;">
+Jan
+</th>
+<th style="text-align:right;">
+Feb
+</th>
+<th style="text-align:right;">
+Mar
+</th>
+<th style="text-align:right;">
+Apr
+</th>
+<th style="text-align:right;">
+May
+</th>
+<th style="text-align:right;">
+Jun
+</th>
+<th style="text-align:right;">
+Jul
+</th>
+<th style="text-align:right;">
+Aug
+</th>
+<th style="text-align:right;">
+Sep
+</th>
+<th style="text-align:right;">
+Oct
+</th>
+<th style="text-align:right;">
+Nov
+</th>
+<th style="text-align:right;">
+Dec
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:right;">
+-0.54
+</td>
+<td style="text-align:right;">
+-0.38
+</td>
+<td style="text-align:right;">
+-0.26
+</td>
+<td style="text-align:right;">
+-0.37
+</td>
+<td style="text-align:right;">
+-0.11
+</td>
+<td style="text-align:right;">
+-0.22
+</td>
+<td style="text-align:right;">
+-0.23
+</td>
+<td style="text-align:right;">
+-0.24
+</td>
+<td style="text-align:right;">
+-0.26
+</td>
+<td style="text-align:right;">
+-0.32
+</td>
+<td style="text-align:right;">
+-0.37
+</td>
+<td style="text-align:right;">
+-0.48
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1881
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+-0.25
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+-0.02
+</td>
+<td style="text-align:right;">
+-0.06
+</td>
+<td style="text-align:right;">
+-0.36
+</td>
+<td style="text-align:right;">
+-0.06
+</td>
+<td style="text-align:right;">
+-0.03
+</td>
+<td style="text-align:right;">
+-0.23
+</td>
+<td style="text-align:right;">
+-0.40
+</td>
+<td style="text-align:right;">
+-0.42
+</td>
+<td style="text-align:right;">
+-0.28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1882
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.22
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+-0.36
+</td>
+<td style="text-align:right;">
+-0.32
+</td>
+<td style="text-align:right;">
+-0.38
+</td>
+<td style="text-align:right;">
+-0.37
+</td>
+<td style="text-align:right;">
+-0.14
+</td>
+<td style="text-align:right;">
+-0.17
+</td>
+<td style="text-align:right;">
+-0.53
+</td>
+<td style="text-align:right;">
+-0.32
+</td>
+<td style="text-align:right;">
+-0.42
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1883
+</td>
+<td style="text-align:right;">
+-0.59
+</td>
+<td style="text-align:right;">
+-0.67
+</td>
+<td style="text-align:right;">
+-0.16
+</td>
+<td style="text-align:right;">
+-0.27
+</td>
+<td style="text-align:right;">
+-0.32
+</td>
+<td style="text-align:right;">
+-0.26
+</td>
+<td style="text-align:right;">
+-0.09
+</td>
+<td style="text-align:right;">
+-0.26
+</td>
+<td style="text-align:right;">
+-0.33
+</td>
+<td style="text-align:right;">
+-0.21
+</td>
+<td style="text-align:right;">
+-0.40
+</td>
+<td style="text-align:right;">
+-0.25
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1884
+</td>
+<td style="text-align:right;">
+-0.23
+</td>
+<td style="text-align:right;">
+-0.11
+</td>
+<td style="text-align:right;">
+-0.65
+</td>
+<td style="text-align:right;">
+-0.62
+</td>
+<td style="text-align:right;">
+-0.42
+</td>
+<td style="text-align:right;">
+-0.52
+</td>
+<td style="text-align:right;">
+-0.48
+</td>
+<td style="text-align:right;">
+-0.50
+</td>
+<td style="text-align:right;">
+-0.45
+</td>
+<td style="text-align:right;">
+-0.41
+</td>
+<td style="text-align:right;">
+-0.48
+</td>
+<td style="text-align:right;">
+-0.40
+</td>
+</tr>
+</tbody>
+</table>
+<p>Next we convert the dataframe from wide to ‘long’ format using <code>pivot_longer()</code> function. Name of the new dataframe is <code>tidyweather</code>.The variable containing the name of the month is <code>month</code>, and the temperature deviation is <code>delta</code>.</p>
+<pre class="r"><code>tidyweather &lt;- tidyweather %&gt;% 
+  pivot_longer(cols=2:13, 
+               names_to=&quot;Month&quot;, 
+               values_to = &quot;delta&quot;) #transforming to longer format
+kable(head(tidyweather, 5)) #visualise</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Year
+</th>
+<th style="text-align:left;">
+Month
+</th>
+<th style="text-align:right;">
+delta
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:left;">
+Jan
+</td>
+<td style="text-align:right;">
+-0.54
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:left;">
+Feb
+</td>
+<td style="text-align:right;">
+-0.38
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:left;">
+Mar
+</td>
+<td style="text-align:right;">
+-0.26
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:left;">
+Apr
+</td>
+<td style="text-align:right;">
+-0.37
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1880
+</td>
+<td style="text-align:left;">
+May
+</td>
+<td style="text-align:right;">
+-0.11
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>tidyweather</code></pre>
+<pre><code>## # A tibble: 1,680 x 3
+##     Year Month delta
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1  1880 Jan   -0.54
+##  2  1880 Feb   -0.38
+##  3  1880 Mar   -0.26
+##  4  1880 Apr   -0.37
+##  5  1880 May   -0.11
+##  6  1880 Jun   -0.22
+##  7  1880 Jul   -0.23
+##  8  1880 Aug   -0.24
+##  9  1880 Sep   -0.26
+## 10  1880 Oct   -0.32
+## # … with 1,670 more rows</code></pre>
+<p>The new cleaned dataset has three variables now, one each for</p>
+<ol style="list-style-type: decimal">
+<li>year,</li>
+<li>month, and</li>
+<li>delta, or temperature deviation.</li>
+</ol>
+<div id="plotting-information" class="section level2">
+<h2>Plotting Information</h2>
+<p>We, as a next step, proceed to plotting the data using a time-series scatter plot with a trendline. To do that, we first created a new variable called <code>date</code> in order to ensure that the <code>delta</code> values are plot chronologically.</p>
+<pre class="r"><code>tidyweather &lt;- tidyweather %&gt;%
+  mutate(date = ymd(paste(as.character(Year), Month, &quot;1&quot;)), #creating dates
+         month = month(date, label=TRUE),
+         year = year(date))
+
+ggplot(tidyweather, aes(x=date, y = delta))+ #building a plot
+  geom_point()+
+  geom_smooth(color=&quot;red&quot;) +
+  theme_bw() +
+  labs (
+    title = &quot;Weather Anomalies are skyrocketing &quot; #adding title
+  )+
+  ylab(&quot;temperture deviation&quot;)+
+  xlab(&quot;Year&quot;)</code></pre>
+<p><img src="/blogs/temperatureanalysis/temperatureanalysis_files/figure-html/scatter_plot-1.png" width="648" style="display: block; margin: auto;" />
+Overall, we can see that the temperature deviations gradually increased over time. It is interesting to observe that the increase in variation came in two waves. In fact, while the rise seems gradual, two period slow down the increase in variation. Those periods vaguely coincide with the 2 world wars (1914-1918, 1939-1945), which could explain the lower variation, as production slowed down during this period.</p>
+<p>Is the effect of increasing temperature more pronounced in some months? We use <code>facet_wrap()</code> to produce a seperate scatter plot for each month, again with a smoothing line.</p>
+<p><img src="/blogs/temperatureanalysis/temperatureanalysis_files/figure-html/facet_wrap-1.png" width="648" style="display: block; margin: auto;" />
+While all the months present some similar curves, some months of the year have a much higher variability than others. This is the case for the northern hemisphere winter months (December, January, February), which shows points that are more distant from the red, smoothing line, therefore implying higher variability in the temperature rise.</p>
+<p>Let us now continue our analysis with a different time period to study this historical evolution more in depth. Let’s create a new data frame groupin the data in five time period: 1881-1920, 1921-1950, 1951-1980, 1981-2010 and 2011-present.</p>
+<p>To do that, we remove data before 1800 and before using <code>filter</code>. Then, we use the <code>mutate</code> function to create a new variable <code>interval</code> which contains information on which period each observation belongs to. We can assign the different periods using <code>case_when()</code>.</p>
+<pre class="r"><code>comparison &lt;- tidyweather %&gt;%
+  select(Year, month, delta) %&gt;% 
+  filter(Year&gt;= 1881) %&gt;%     #remove years prior to 1881
+  #create new variable &#39;interval&#39;, and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ &quot;1881-1920&quot;,
+    Year %in% c(1921:1950) ~ &quot;1921-1950&quot;,
+    Year %in% c(1951:1980) ~ &quot;1951-1980&quot;,
+    Year %in% c(1981:2010) ~ &quot;1981-2010&quot;,
+    TRUE ~ &quot;2011-present&quot;
+  ))</code></pre>
+<p>Now that we have the <code>interval</code> variable, we can create a density plot to study the distribution of monthly deviations (<code>delta</code>), grouped by the different time periods we are interested in. Set <code>fill</code> to <code>interval</code> to group and colour the data by different time periods.</p>
+<pre class="r"><code>ggplot(comparison, aes(x=delta, fill=interval))+
+  geom_density(alpha=0.2) +   #density plot with tranparency set to 20%
+  theme_bw() +                #theme
+  labs (
+    title = &quot;Density Plot for Monthly Temperature Anomalies&quot;,
+    y     = &quot;Density&quot;         #changing y-axis label to sentence case
+  )</code></pre>
+<p><img src="/blogs/temperatureanalysis/temperatureanalysis_files/figure-html/density_plot-1.png" width="648" style="display: block; margin: auto;" />
+From this density plot, which displays the average and deviation levels of each decade, it is evident that the last decade (2011-present) is the one presenting the largest positive variation from normal temperatures.</p>
+<p>Now, we might be interested in average annual anomalies, so let’s proceed to them instead of monthly data.</p>
+<pre class="r"><code>#creating yearly averages
+average_annual_anomaly &lt;- tidyweather %&gt;% 
+  group_by(Year) %&gt;%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  # use `na.rm=TRUE` to eliminate NA (not available) values 
+  summarise(annual_average_delta = mean(delta, na.rm=TRUE)) 
+
+#plotting the data:
+ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
+  geom_point()+
+  
+  #Fit the best fit line, using LOESS method
+  geom_smooth() +
+  
+  #change to theme_bw() to have white background + black frame around plot
+  theme_bw() +
+  labs (
+    title = &quot;Average Yearly Anomaly&quot;,
+    y     = &quot;Average Annual Delta&quot;
+  )                         </code></pre>
+<p><img src="/blogs/temperatureanalysis/temperatureanalysis_files/figure-html/averaging-1.png" width="648" style="display: block; margin: auto;" />
+From this graph again, it is evident that over time the ‘delta’ which represents the variability has increased. In fact, the largest variability level appears in the last decade, with a gap over 1.5 delta above average temperature.</p>
+</div>
+<div id="confidence-interval-for-delta" class="section level2">
+<h2>Confidence Interval for <code>delta</code></h2>
+<p>Finally, let us build a confidence interval displaying the range of variation we can expect at a 95% confidence level.
+We construct a confidence interval for the average annual delta since 2011, both using a formula and using a bootstrap simulation with the <code>infer</code> package.</p>
+<pre class="r"><code>formula_ci &lt;- comparison %&gt;% 
+
+  # choose the interval 2011-present
+  filter(interval == &quot;2011-present&quot;) %&gt;% 
+  # calculate necessary statistics for delta
+  summarise(
+            mean = mean(delta, na.rm=TRUE), # calculate mean
+            count = n(), # count
+            sd_delta = sd(delta, na.rm=TRUE), #SE
+            t_critical = qt(0.975, count-1), #critical value of t-statistics
+            lower_ci_95 = mean - (t_critical*sd_delta/sqrt(count)), #lower bound CI
+            upper_ci_95 = mean + (t_critical*sd_delta/sqrt(count))) #upper bound CI
+  
+formula_ci</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##    mean count sd_delta t_critical lower_ci_95 upper_ci_95
+##   &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1 0.966   108    0.262       1.98       0.916        1.02</code></pre>
+<pre class="r"><code>point_estimate &lt;- comparison %&gt;% 
+  filter(interval==&quot;2011-present&quot;) %&gt;% 
+  specify(response = delta) %&gt;% #specifying the variable
+  calculate(stat=&quot;mean&quot;) %&gt;% #specifying the statistics
+  dplyr:: pull() 
+
+bootstrap_ci &lt;- comparison %&gt;% 
+  filter(interval==&quot;2011-present&quot;) %&gt;% #choosing the interval
+  specify(response = delta) %&gt;% #specifying the variable
+  hypothesize(null=&quot;point&quot;, mu=0.2) %&gt;% 
+  generate(reps=1000, type=&quot;bootstrap&quot;) %&gt;% #generating bootstrap
+  calculate(stat=&quot;mean&quot;) %&gt;% #calculating the mean
+ get_confidence_interval(
+    point_estimate = point_estimate,
+    level = 0.95, #choosing Cl
+   type=&quot;se&quot; 
+ )
+bootstrap_ci</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   lower_ci upper_ci
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1    0.915     1.02</code></pre>
+<p>What we have done is calculated the 95% confidence interval for the population mean for temperature variations.
+We used two different methods and we came to conclusion that we are 95% confident that the true mean of temperature variations (delta) lies within the interval from 0.915 to 1.02. As the graph have shown, delta is increasing throughout the time, meaning that the population mean is the highest from the whole period for which we have observations.</p>
+</div>
+</div>
+
+                        </div>
+                    </section>
+            <!-- Disqus Inject -->
+                
+            </div>
+            
+        <!-- Footer -->
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>

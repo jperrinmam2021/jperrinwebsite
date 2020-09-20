@@ -1,0 +1,186 @@
+---
+categories:
+- ""
+- ""
+date: "2017-10-31T22:26:13-05:00"
+description: 
+draft: false
+image: pic02.jpg
+keywords: "covid"
+slug: covid
+title: Covid
+---
+
+
+
+<p>As Covid-19 second wave bursts in Europes, let us try to use our analytical skills to uncover some trends in COVID-19 pandemic.
+We will try to determine whether prior medical conditions has any impact on death rate of COVID-19 patients, and whether there is a significant difference in death rate if an individual was admitted to Intensive Care Unit (ICU), depending on sex group and age.</p>
+<p>Let us revisit the <a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf">CDC Covid-19 Case Surveillance Data</a>.</p>
+<pre class="r"><code># URL link to CDC to download data
+url &lt;- &quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&quot;
+
+covid_data &lt;- vroom(url)%&gt;%
+  clean_names()</code></pre>
+<p>Let us start with Morbidity and COVID-19 death rate analysis.</p>
+<pre class="r"><code>death_morbidity &lt;- covid_data %&gt;% 
+  
+#We filter out all the &quot;Missing&quot; and &quot;Unknown&quot; values from the Death and Morbidity variables, we only keep &quot;Male&quot; and &quot;Female&quot; from the sexvariable and get eliminate any &quot;Unknown&quot; value in Age Group. 
+          filter(medcond_yn == &#39;Yes&#39; | medcond_yn == &#39;No&#39;, death_yn == &#39;Yes&#39; | death_yn == &#39;No&#39;, 
+                 sex == &#39;Male&#39; | sex == &#39;Female&#39;, age_group != &#39;Unknown&#39;) %&gt;%
+  
+#We select the variables of interest for our analysis.
+          select(Age=age_group,Sex=sex,Death=death_yn,Morbidity=medcond_yn) %&gt;% 
+  
+#We group our observation by Death, Age, Sex and Morbidity, the variables of interest for our graph. 
+          group_by(Age ,Sex, Morbidity, Death) %&gt;% 
+          count()%&gt;% 
+  
+#We modify our datafram to get &quot;Yes&quot; and &quot;No&quot; (Death) as Variable
+          spread(key=Death, value=n) %&gt;% 
+  
+#We summarise to get the death rate per Age group, Sex and Morbidity. We create an additional column to round those findings.
+          summarise(death= (Yes/(Yes+No)*100),death_rate= round(death, digits = 1))
+
+death_morbidity</code></pre>
+<pre><code>## # A tibble: 36 x 5
+## # Groups:   Age, Sex [18]
+##    Age           Sex    Morbidity   death death_rate
+##    &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+##  1 0 - 9 Years   Female No        0.0775         0.1
+##  2 0 - 9 Years   Female Yes       0.295          0.3
+##  3 0 - 9 Years   Male   No        0.0764         0.1
+##  4 0 - 9 Years   Male   Yes       0.220          0.2
+##  5 10 - 19 Years Female No        0.00713        0  
+##  6 10 - 19 Years Female Yes       0.207          0.2
+##  7 10 - 19 Years Male   No        0.0238         0  
+##  8 10 - 19 Years Male   Yes       0.282          0.3
+##  9 20 - 29 Years Female No        0.0155         0  
+## 10 20 - 29 Years Female Yes       0.382          0.4
+## # … with 26 more rows</code></pre>
+<p>Now that our data is ready, let us plot it in a bar chart to analyse the results.</p>
+<pre class="r"><code>#Let us add some labels to the graph. In order to add labels with the facet.grid, we need to create a function incorporating our label names. 
+morbidity_label &lt;- list(&#39;No&#39; = &quot;Without comorbidities&quot;, &#39;Yes&#39; = &quot;With comorbidities&quot;, &#39;Female&#39;=&quot;Female&quot;, &#39;Male&#39;=&quot;Male&quot;)
+morbidity_labeller &lt;- function(variable,value)
+    {return(morbidity_label[value])}
+  
+
+#Let&#39;s move on to the plotting our findings, which will make it way easier to analyse our data.   
+graph_death_morbidity &lt;- death_morbidity %&gt;% 
+  
+#Let us select the value necessary for the plot.
+          ggplot(aes(y=death_rate, x=Age))+
+  
+#We need to plot a bar chart:  we don&#39;t need a legend but we add some color to the graph.
+          geom_col(show.legend = FALSE, fill=&quot;#6B7CA4&quot;)+
+  
+# We want the x-axis to show the difference between man and women and y-axis to show the difference in comorbidity.
+          facet_grid(Morbidity~Sex, scales = &quot;fixed&quot;, labeller =(morbidity_labeller))+
+  
+#To make the graph more readable, let us put some labels and adjust their position
+          geom_text(aes(label = death_rate, hjust = &quot;left&quot;), size = 2 , nudge_y = +1)+
+  
+#Let&#39;s put the scales in percentage, and swith the coordinates to have the death rates on the x axis. 
+          scale_y_continuous(labels = scales::percent_format(scale = 1))+
+          coord_flip()+
+  
+#Let&#39;s add a bit more style to our graph !
+          theme_bw()+ 
+  
+#Let us add some titles, subtitles and additional elements of style
+          labs(title= &quot;Does past medical conditions really have an impact 
+               on COVID mortality rate ?&quot;,
+               subtitle = &quot;Covid-19 Death rate by Age, Sex, and presence of Co-Morbidities\n&quot;,
+               y=&quot;Death Rate (%)&quot;,
+               x=&quot;Age Group&quot;,
+               caption = &quot;Source : CDC&quot;)+
+          theme(plot.title = element_text(family = &quot;Helvetica&quot;, face = &quot;bold&quot;, size = (12)),
+          axis.title = element_text(family = &quot;Helvetica&quot;, size = (8)),
+          axis.text = element_text(family = &quot;Helvetica&quot;, size = (8))) %&gt;% 
+  guides(fill = guide_legend(override.aes = list(size=5), order = 2))
+        
+graph_death_morbidity</code></pre>
+<p><img src="/blogs/covid/covid_files/figure-html/unnamed-chunk-3-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>From this plot, it is evident that males have a much higher death rate for any category of age and morbidity than females. Also, we can see that the prior medical conditions have a critical impact on the COVID-19 death rate, for any age category. For instance, man aged over 80 years old with medical conditions have 67% death rate from COVID-19, compared to 29% death rate for cases without morbidity.</p>
+<p>Let us now observe how the admittance to ICU has impact of the COVID-19 death rate per age category and sex.</p>
+<pre class="r"><code>death_ICU &lt;- covid_data %&gt;% 
+  
+#Similarly, we filter out all the &quot;Missing&quot; and &quot;Unknown&quot; values from the Death
+#and ICU variables, we only keep &quot;Male&quot; and &quot;Female&quot; from the sex variable and get 
+#eliminate any &quot;Unknown&quot; value in Age Group. 
+          filter(icu_yn == &#39;Yes&#39; | icu_yn == &#39;No&#39;, death_yn == &#39;Yes&#39; | death_yn == &#39;No&#39;, 
+                 sex == &#39;Male&#39; | sex == &#39;Female&#39;, age_group != &#39;Unknown&#39;) %&gt;%
+  
+#We select the variables of interest for our analysis.
+          select(Age=age_group,Sex=sex,Death=death_yn,ICU=icu_yn) %&gt;% 
+  
+#We group our observation by Death, Age, Sex and ICU, the variables of interest for our graph. 
+          group_by(Age ,Sex, ICU, Death) %&gt;% 
+          count()%&gt;% 
+  
+#We modify our dataframe to get &quot;Yes&quot; and &quot;No&quot; (Death) as Variable
+          spread(key=Death, value=n) %&gt;% 
+  
+#We summarise to get the death rate per Age group, Sex and Morbidity.
+          summarise(death2= (Yes/(Yes+No)*100), death_rate2= round(death2, digits = 1))
+
+death_ICU</code></pre>
+<pre><code>## # A tibble: 36 x 5
+## # Groups:   Age, Sex [18]
+##    Age           Sex    ICU    death2 death_rate2
+##    &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;       &lt;dbl&gt;
+##  1 0 - 9 Years   Female No     0.156          0.2
+##  2 0 - 9 Years   Female Yes    3.03           3  
+##  3 0 - 9 Years   Male   No     0.0653         0.1
+##  4 0 - 9 Years   Male   Yes    8.79           8.8
+##  5 10 - 19 Years Female No     0.0245         0  
+##  6 10 - 19 Years Female Yes    6.86           6.9
+##  7 10 - 19 Years Male   No     0.0358         0  
+##  8 10 - 19 Years Male   Yes   11.9           11.9
+##  9 20 - 29 Years Female No     0.0538         0.1
+## 10 20 - 29 Years Female Yes   11.1           11.1
+## # … with 26 more rows</code></pre>
+<p>Now that the data is ready, let us plot it to make it more readable.</p>
+<pre class="r"><code>#Let us add some labels to the graph. In order to add labels with the facet.grid, we need to create a function incorporating our label names. 
+icu_label &lt;- list(&#39;No&#39; = &quot;Not admitted to ICU&quot;, &#39;Yes&#39; = &quot;Admitted to ICU&quot;, &#39;Female&#39;=&quot;Female&quot;, &#39;Male&#39;=&quot;Male&quot;)
+icu_labeller &lt;- function(variable,value)
+    {return(icu_label[value])}
+  
+
+#Let&#39;s move on to the plotting our findings, which will make it way easier to analyse our data.   
+graph_death_icu &lt;- death_ICU %&gt;% 
+  
+#Let us select the value necessary for the plot.
+          ggplot(aes(y=death_rate2, x=Age))+
+  
+#We need to plot a bar chart:  we don&#39;t need a legend but we add some color to the graph.
+          geom_col(show.legend = FALSE, fill=&quot;#EF8E7B&quot;)+
+  
+# We want the x-axis to show the difference between man and women and y-axis 
+# to show the difference in comorbidity.
+          facet_grid(ICU~Sex, scales = &quot;fixed&quot;, labeller = icu_labeller)+
+  
+#To make the graph more readable, let us put some labels and adjust their position
+          geom_text(aes(label = death_rate2, hjust = &quot;left&quot;), size = 2 , nudge_y = +1)+
+  
+#Let&#39;s put the scales in percentage, and swith the coordinates to have the 
+#death rates on the x axis. 
+          scale_y_continuous(labels = scales::percent_format(scale = 1))+
+          coord_flip()+
+  
+#Let&#39;s add a bit more style to our graph !
+          theme_bw()+ 
+  
+#Let us add some titles, subtitles and additional elements of style
+          labs(title= 
+  &quot;Does past medical conditions really have an impact on COVID mortality rate ?&quot;,
+               subtitle = &quot;Covid-19 Death rate by Age, Sex, and presence of Co-Morbidities\n&quot;,
+               y=&quot;Death Rate (%)&quot;,
+               x=&quot;Age Group&quot;,
+               caption = &quot;Source : CDC&quot;)+
+          theme(plot.title = element_text(family = &quot;Helvetica&quot;, face = &quot;bold&quot;, size = (12)),
+          axis.title = element_text(family = &quot;Helvetica&quot;, size = (8)),
+          axis.text = element_text(family = &quot;Helvetica&quot;, size = (8)))
+        
+graph_death_icu</code></pre>
+<p><img src="/blogs/covid/covid_files/figure-html/unnamed-chunk-5-1.png" width="648" style="display: block; margin: auto;" />
+That looks great! From this graph, it appears that admittance to Intensive Care Unit has a great impact on the COVID-19 death rate. Similarly to the previous graph, males are also more impacted by the pandemic than females for almost any age category.</p>

@@ -3,12 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/blogs/aliquam/</loc>
-    <lastmod>2017-10-31T22:42:51-05:00</lastmod>
+    <loc>/</loc>
+    <lastmod>2020-09-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/</loc>
+    <loc>/blogs/temperatureanalysis/temperatureanalysis/</loc>
+    <lastmod>2020-09-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blogs/aliquam/</loc>
     <lastmod>2017-10-31T22:42:51-05:00</lastmod>
   </url>
   
@@ -18,18 +23,23 @@
   </url>
   
   <url>
-    <loc>/blogs/tempus/</loc>
+    <loc>/blogs/aboutme/aboutme/</loc>
     <lastmod>2017-10-31T22:26:13-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/blogs/magna/</loc>
-    <lastmod>2017-10-31T22:26:09-05:00</lastmod>
+    <loc>/blogs/covid/covid/</loc>
+    <lastmod>2017-10-31T22:26:13-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/blogs/ipsum/</loc>
-    <lastmod>2017-10-31T21:28:43-05:00</lastmod>
+    <loc>/blogs/imdb/imdb/</loc>
+    <lastmod>2017-10-31T22:26:13-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blogs/tempus/</loc>
+    <lastmod>2017-10-31T22:26:13-05:00</lastmod>
   </url>
   
   <url>
@@ -70,6 +80,22 @@
   <url>
     <loc>/post/2015-07-23-r-rmarkdown/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blogs/aboutme/</loc>
+  </url>
+  
+  <url>
+    <loc>/blogs/blog2/</loc>
+  </url>
+  
+  <url>
+    <loc>/blogs/tourdefrance/tourdefrance/</loc>
+  </url>
+  
+  <url>
+    <loc>/blogs/blog1/</loc>
   </url>
   
 </urlset>

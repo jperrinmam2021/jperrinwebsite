@@ -1,0 +1,678 @@
+---
+categories:
+- ""
+- ""
+date: "2017-10-31T22:26:13-05:00"
+description: 
+draft: false
+image: pic02.jpg
+keywords: "imdb"
+slug: imdb
+title: IMDB
+---
+
+
+
+<p><br />
+</p>
+<p><br />
+</p>
+<p><img src="http://www.myfilmviews.com/wp-content/uploads/2012/12/schindler-s-list-original.jpg" style="width:50.0%" /><br />
+</p>
+<p><em>Liam Neeson in the Schindler’s List, one of the most famous movie directed by Steven Spielberg.</em><br />
+<br />
+</p>
+<div id="imdb-ratings-differences-between-directors" class="section level1">
+<h1>IMDB ratings: Differences between directors</h1>
+<p><br />
+Let’s use the the IMBD data set to analyse the rating performance of some of the best movies directors. We explore whether the mean IMDB rating for Steven Spielberg and Tim Burton are the same or not. We have already calculated the confidence intervals for the mean ratings of these two directors and as you can see they overlap.<br />
+</p>
+<p>Before we start on with the analysis, it’s is always a good idea to check with <code>skimr::skim()</code> to get a feel for missing values, summary statistics of numerical variables, and a very rough histogram.<br />
+<br />
+</p>
+<pre class="r"><code>#Let us load the necessary packages for this analysis. 
+#library(dplyr)
+#library(infer)
+#Let us load the data
+movies &lt;- read_csv(&quot;/Users/josephperrin/Desktop/London Business School/jperrinwebsite/data/movies.csv&quot;)
+skim(movies)</code></pre>
+<table style='width: auto;'
+        class='table table-condensed'>
+<caption>
+<span id="tab:load-movies-data">Table 1: </span>Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+movies
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+2961
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:left;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+min
+</th>
+<th style="text-align:right;">
+max
+</th>
+<th style="text-align:right;">
+empty
+</th>
+<th style="text-align:right;">
+n_unique
+</th>
+<th style="text-align:right;">
+whitespace
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+title
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+83
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2907
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+genre
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+director
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1366
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+year
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2.00e+03
+</td>
+<td style="text-align:right;">
+9.95e+00
+</td>
+<td style="text-align:right;">
+1920.0
+</td>
+<td style="text-align:right;">
+2.00e+03
+</td>
+<td style="text-align:right;">
+2.00e+03
+</td>
+<td style="text-align:right;">
+2.01e+03
+</td>
+<td style="text-align:right;">
+2.02e+03
+</td>
+<td style="text-align:left;">
+▁▁▁▂▇
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+duration
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.10e+02
+</td>
+<td style="text-align:right;">
+2.22e+01
+</td>
+<td style="text-align:right;">
+37.0
+</td>
+<td style="text-align:right;">
+9.50e+01
+</td>
+<td style="text-align:right;">
+1.06e+02
+</td>
+<td style="text-align:right;">
+1.19e+02
+</td>
+<td style="text-align:right;">
+3.30e+02
+</td>
+<td style="text-align:left;">
+▃▇▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gross
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5.81e+07
+</td>
+<td style="text-align:right;">
+7.25e+07
+</td>
+<td style="text-align:right;">
+703.0
+</td>
+<td style="text-align:right;">
+1.23e+07
+</td>
+<td style="text-align:right;">
+3.47e+07
+</td>
+<td style="text-align:right;">
+7.56e+07
+</td>
+<td style="text-align:right;">
+7.61e+08
+</td>
+<td style="text-align:left;">
+▇▁▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+budget
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4.06e+07
+</td>
+<td style="text-align:right;">
+4.37e+07
+</td>
+<td style="text-align:right;">
+218.0
+</td>
+<td style="text-align:right;">
+1.10e+07
+</td>
+<td style="text-align:right;">
+2.60e+07
+</td>
+<td style="text-align:right;">
+5.50e+07
+</td>
+<td style="text-align:right;">
+3.00e+08
+</td>
+<td style="text-align:left;">
+▇▂▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cast_facebook_likes
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.24e+04
+</td>
+<td style="text-align:right;">
+2.05e+04
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+2.24e+03
+</td>
+<td style="text-align:right;">
+4.60e+03
+</td>
+<td style="text-align:right;">
+1.69e+04
+</td>
+<td style="text-align:right;">
+6.57e+05
+</td>
+<td style="text-align:left;">
+▇▁▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+votes
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.09e+05
+</td>
+<td style="text-align:right;">
+1.58e+05
+</td>
+<td style="text-align:right;">
+5.0
+</td>
+<td style="text-align:right;">
+1.99e+04
+</td>
+<td style="text-align:right;">
+5.57e+04
+</td>
+<td style="text-align:right;">
+1.33e+05
+</td>
+<td style="text-align:right;">
+1.69e+06
+</td>
+<td style="text-align:left;">
+▇▁▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+reviews
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5.03e+02
+</td>
+<td style="text-align:right;">
+4.94e+02
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+1.99e+02
+</td>
+<td style="text-align:right;">
+3.64e+02
+</td>
+<td style="text-align:right;">
+6.31e+02
+</td>
+<td style="text-align:right;">
+5.31e+03
+</td>
+<td style="text-align:left;">
+▇▁▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+rating
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6.39e+00
+</td>
+<td style="text-align:right;">
+1.05e+00
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+5.80e+00
+</td>
+<td style="text-align:right;">
+6.50e+00
+</td>
+<td style="text-align:right;">
+7.10e+00
+</td>
+<td style="text-align:right;">
+9.30e+00
+</td>
+<td style="text-align:left;">
+▁▁▆▇▁
+</td>
+</tr>
+</tbody>
+</table>
+<p><br />
+<br />
+Now that we have a better idea of our data, let us get it rid of missing values, and let’s start with our analysis of Steven Spielberg and Tim Burton average IMDB rating. We will start with a graph that will show us the differences in mean and the confidence interval for the two producers.<br />
+<br />
+</p>
+<pre class="r"><code>table &lt;- movies %&gt;% 
+  
+#Let us filter the data for missing values, and select our two directors
+  filter(!is.na(rating), director == &#39;Steven Spielberg&#39; | director == &#39;Tim Burton&#39;) %&gt;%
+  group_by(director) %&gt;% 
+  
+#We then calculate the required statistics and make sure to round them up
+  summarise(mean_1= mean(rating), mean = round(mean_1, digits = 2), sd= sd(rating), t_critical=qt(.95, n() - 1), standard_error=sd(movies$rating)/sqrt(n()), lower_95_1 = mean - t_critical*(standard_error), upper_95_1 = mean + t_critical*(standard_error), lower_95= round(lower_95_1, digits = 2),upper_95= round(upper_95_1, digits = 2) )
+
+table</code></pre>
+<pre><code>## # A tibble: 2 x 10
+##   director mean_1  mean    sd t_critical standard_error lower_95_1 upper_95_1
+##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Steven …   7.57  7.57 0.695       1.72          0.219       7.19       7.95
+## 2 Tim Bur…   6.93  6.93 0.749       1.75          0.263       6.47       7.39
+## # … with 2 more variables: lower_95 &lt;dbl&gt;, upper_95 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>#For the purpose of our analysis, we create to additional variable containing the lower and upper values of our director
+CI_lower &lt;- table %&gt;% 
+  filter(director == &#39;Steven Spielberg&#39;) %&gt;% 
+  select(lower_95)
+
+CI_higher &lt;- table %&gt;% 
+  filter(director == &#39;Tim Burton&#39;) %&gt;% 
+  select(upper_95)
+
+#Let&#39;s start the plot!
+movies_plot &lt;- table %&gt;% 
+
+#Let&#39;s plot the mean, upper and lower limits of our directors IMDB&#39;s rating
+  ggplot(aes(x = mean, y = reorder(director, mean), color = director, xmin = lower_95, xmax = upper_95)) +
+  
+#We use geom_errorbar to plot the scatter plot and assign a point to the mean
+  geom_errorbar(aes(xmin=lower_95, xmax=upper_95, color=director), width=0.1, size=1.5, scales = &quot;free&quot;) +
+  geom_point(aes(x = mean, y = director, color = director, size = 1.7))+
+
+#Let&#39;s shade the common CI of the two directors.
+  geom_rect(aes(xmin = CI_lower$lower_95, xmax = CI_higher$upper_95, ymin= -Inf, ymax=Inf), alpha=0.2, colour = &quot;transparent&quot;)+
+  
+#Let us add some labels and style!
+  geom_text(aes(label=mean), color= &quot;black&quot;, size=5, vjust=-0.8)+
+  geom_text(aes(label=upper_95), color= &quot;black&quot;, size=3, vjust=-2, hjust=-6)+
+  geom_text(aes(label=lower_95), color= &quot;black&quot;, size=3, vjust=-2, hjust=7)+
+  theme_minimal()+
+  labs(title= &quot;Do Spielberg and Burton have the same mean IMDB ratings ?&quot;,
+               subtitle = &quot;95% confidence intervals overlap\n&quot;,
+               x=&quot;Mean IMDB Rating&quot;,
+               y=&quot;&quot;)+
+  theme(plot.title = element_text(family = &quot;Helvetica&quot;, face = &quot;bold&quot;, size = (12)),
+          axis.title = element_text(family = &quot;Helvetica&quot;, size = (8)),
+          axis.text = element_text(family = &quot;Helvetica&quot;, size = (8)))
+
+movies_plot + theme(legend.position=&quot;none&quot;)</code></pre>
+<p><img src="/blogs/imdb/imdb_files/figure-html/unnamed-chunk-1-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p><br />
+With this graph, it appears that there is a slight difference in average rating for the two directors. Therefore, the aim of this analysis is to determine if there is enough statistical evidence to prove that the mean IMDB rating is different between Tim Burton and Steven Spielberg. Hence our Null hypothesis is the following:<br />
+<em>H0 = Mean IMDB rating for Spielberg and Burton are the same</em><br />
+<em>H1 = Mean MDB rating for Spielberg and Burton is different </em><br />
+</p>
+<pre class="r"><code>#Let&#39;s start by filtering for the observations of interest, and setting the values to new variables
+movies_burtonspielberg &lt;- movies %&gt;% 
+  filter(!is.na(rating), director == &quot;Steven Spielberg&quot; | director == &quot;Tim Burton&quot;) %&gt;% 
+  select(rating, director)
+  
+
+set.seed(1234)
+observed_difference &lt;- movies_burtonspielberg %&gt;%
+  specify(rating ~ director) %&gt;%
+  calculate(stat= &quot;diff in means&quot;, order = c(&quot;Steven Spielberg&quot;, &quot;Tim Burton&quot;)) 
+
+
+movies_diff &lt;- movies_burtonspielberg %&gt;%
+#Let&#39;s specify the variables we want to test
+  specify(rating ~ director) %&gt;%
+  
+#We indicate here that our null hypothesis assumes no difference
+  hypothesize(null=&quot;independence&quot;) %&gt;%
+  
+#We generate a couple of observation to test our hypothesis
+  generate(reps=1000, type=&quot;permute&quot;) %&gt;% 
+
+#We calculate the mean difference of each director&#39;s rating
+  calculate(stat= &quot;diff in means&quot;, order = c(&quot;Steven Spielberg&quot;, &quot;Tim Burton&quot;)) 
+
+#And finally, we calculate the p value !
+movies_diff %&gt;% 
+get_p_value(obs_stat=observed_difference, direction=&quot;both&quot;)</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   p_value
+##     &lt;dbl&gt;
+## 1   0.008</code></pre>
+<p><br />
+Now that we have executed the t test with the “infer” technique, let us use the “t.test” method.<br />
+</p>
+<pre class="r"><code>#This process is more straighforward: we assign our observations to variables and ... let the computer do its magic !
+movies_spielberg &lt;- movies %&gt;% 
+  filter(!is.na(rating),director == &quot;Steven Spielberg&quot;) 
+  
+movies_burton &lt;- movies %&gt;% 
+  filter(!is.na(rating), director == &quot;Tim Burton&quot;)
+
+  t.test(movies_burton$rating, movies_spielberg$rating)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  movies_burton$rating and movies_spielberg$rating
+## t = -3, df = 31, p-value = 0.01
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.13 -0.16
+## sample estimates:
+## mean of x mean of y 
+##      6.93      7.57</code></pre>
+<p><br />
+With the following results (both p value &lt; 0.05), there is enough statistical evidence to reject the null hypothesis. Hence the difference in mean IMDB rating for Tim Burton and Steven Spielberg is not the same.</p>
+<p><br />
+</p>
+</div>

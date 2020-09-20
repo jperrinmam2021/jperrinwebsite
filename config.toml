@@ -69,7 +69,7 @@ disqusShortname = ""
     # Button Style 1
     [[params.navigation.button1]]
       name = "My Work"
-      url = "blogs"
+      url = "pages"
 
     #Button Style 2
     [[params.navigation.button2]]
@@ -95,25 +95,25 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "pages/tourdefrance"
+      url = "blogs/tourdefrance/tourdefrance"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
       subtitle = "How did global temperature evolve since the 19th century ?"
       image = "climatechange.jpg"
-      url = "pages/temperatureanalysis"
+      url = "blogs/temperatureanalysis/temperatureanalysis"
 
     [[params.tiles.showcase]]
       title = "Covid-19 Analysis"
       subtitle = "How does morbidity and admittance to ICU influence Covid-19 death rate"
       image = "covid.jpg"
-      url = "pages/covid"
+      url = "blogs/covid/covid"
 
     [[params.tiles.showcase]]
       title = "IMDB Rating Analysis"
       subtitle = "Is the difference in rating of movie directors statistically significant?"
       image = "lighthouse.jpg"
-      url = "pages/imdb"
+      url = "blogs/imdb/imdb"
 
     #[[params.tiles.showcase]]
      # title = "Consequat"
@@ -144,7 +144,7 @@ disqusShortname = ""
    In today’s data driven world, I am determined to understand the dynamics of business analytics and learn how to consolidate, visualise and analyse data in a comparative approach. My master at LBS enables me to gain hands-on experience, diving into the spectrum of data analytics methods to create valuable output for any company and its environment.  
     """
     buttonText = "More about me"
-    url = "blogs/aboutme"
+    url = "blogs/aboutme/aboutme"
 
 
   # Contact section

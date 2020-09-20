@@ -12,12 +12,53 @@
     
     
     <item>
+      <title>Temperature Variation Analysis</title>
+      <link>/blogs/temperatureanalysis/temperatureanalysis/</link>
+      <pubDate>Tue, 15 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/temperatureanalysis/temperatureanalysis/</guid>
+      <description>Let’s load the libraries
+Climate change and temperature anomalies With the year 2019 concluding the ‘hotest’ decade since 1850, when global temperature started to be recorded, the year 2020 is subject to the same phenomenon. While scientists are becoming more and more alarmist, the predictions of temperature evolution are inreasingly pessimistic. Let us have a look at the variation of the weather since 1880. For this purpose, we can find data on the Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in the Northern Hemisphere at NASA’s Goddard Institute for Space Studies.</description>
+    </item>
+    
+    <item>
       <title>Aliquam</title>
       <link>/blogs/aliquam/</link>
       <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
       
       <guid>/blogs/aliquam/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>/blogs/aboutme/aboutme/</link>
+      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
+      
+      <guid>/blogs/aboutme/aboutme/</guid>
+      <description>Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
+Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.</description>
+    </item>
+    
+    <item>
+      <title>Covid</title>
+      <link>/blogs/covid/covid/</link>
+      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
+      
+      <guid>/blogs/covid/covid/</guid>
+      <description>As Covid-19 second wave bursts in Europes, let us try to use our analytical skills to uncover some trends in COVID-19 pandemic. We will try to determine whether prior medical conditions has any impact on death rate of COVID-19 patients, and whether there is a significant difference in death rate if an individual was admitted to Intensive Care Unit (ICU), depending on sex group and age.
+Let us revisit the CDC Covid-19 Case Surveillance Data.</description>
+    </item>
+    
+    <item>
+      <title>IMDB</title>
+      <link>/blogs/imdb/imdb/</link>
+      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
+      
+      <guid>/blogs/imdb/imdb/</guid>
+      <description>Liam Neeson in the Schindler’s List, one of the most famous movie directed by Steven Spielberg.
+IMDB ratings: Differences between directors 
+Let’s use the the IMBD data set to analyse the rating performance of some of the best movies directors. We explore whether the mean IMDB rating for Steven Spielberg and Tim Burton are the same or not. We have already calculated the confidence intervals for the mean ratings of these two directors and as you can see they overlap.</description>
     </item>
     
     <item>
@@ -30,21 +71,44 @@
     </item>
     
     <item>
-      <title>Magna</title>
-      <link>/blogs/magna/</link>
-      <pubDate>Tue, 31 Oct 2017 22:26:09 -0500</pubDate>
+      <title>About me</title>
+      <link>/blogs/aboutme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/magna/</guid>
-      <description></description>
+      <guid>/blogs/aboutme/</guid>
+      <description>Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
+Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.</description>
     </item>
     
     <item>
-      <title>Ipsum</title>
-      <link>/blogs/ipsum/</link>
-      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
+      <title>About me</title>
+      <link>/blogs/blog2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/ipsum/</guid>
-      <description>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</description>
+      <guid>/blogs/blog2/</guid>
+      <description>![](/Users/josephperrin/Desktop/JP/ID + photos/Joseph Perrin Photo.png){ width=10% }
+Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
+Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.</description>
+    </item>
+    
+    <item>
+      <title>Tour de France</title>
+      <link>/blogs/tourdefrance/tourdefrance/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/tourdefrance/tourdefrance/</guid>
+      <description>Tadej Pogacar, on his way to winning the 2020 Tour de France
+Background Information As the Tour de France 2020 is currently underway, the peloton will have to ride over 3500km in a bit less than 3 weeks. While the outcome of this year’s Tour, the first one to happen in September, is quite certain, this race is usually the theatre of much suspense and drama. Every year since 1903, the Tour de France is a cycling race taking place in the summer which slowly became inherent to the french culture.</description>
+    </item>
+    
+    <item>
+      <title>Tour de France Analysis</title>
+      <link>/blogs/blog1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blog1/</guid>
+      <description>Tadej Pogacar, on his way to winning the 2020 Tour de France
+knitr::opts_chunk$set( message = FALSE, warning = FALSE, tidy=FALSE, # display code as typed size=&amp;quot;small&amp;quot;) # slightly smaller font for code options(digits = 3) # default figure size knitr::opts_chunk$set( fig.width=6.75, fig.height=6.75, fig.align = &amp;quot;center&amp;quot;, error = TRUE, echo = TRUE ) library(tidyverse) # Load ggplot2, dplyr, and all the other tidyverse packages library(janitor) library(png) library(skimr) library(vroom) library(mosaic) library(here) library(rmarkdown) library(ggExtra) library(stringr) library(dplyr) library(reshape2) library(tidyr) library(forcats) #remotes::install_github(&amp;quot;kjhealy/socviz&amp;quot;) library(socviz) Background Information As the Tour de France 2020 is currently underway, the peloton will have to ride over 3500km in a bit less than 3 weeks.</description>
     </item>
     
   </channel>
