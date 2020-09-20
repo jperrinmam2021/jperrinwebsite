@@ -23,11 +23,6 @@
   </url>
   
   <url>
-    <loc>/blogs/aboutme/aboutme/</loc>
-    <lastmod>2017-10-31T22:26:13-05:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/blogs/covid/covid/</loc>
     <lastmod>2017-10-31T22:26:13-05:00</lastmod>
   </url>
@@ -84,6 +79,10 @@
   
   <url>
     <loc>/blogs/aboutme/</loc>
+  </url>
+  
+  <url>
+    <loc>/blogs/aboutme/aboutme/</loc>
   </url>
   
   <url>

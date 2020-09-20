@@ -1,11 +1,8 @@
 ---
-categories:
-- ""
-- ""
-date: "2017-10-31T22:26:13-05:00"
+date: "2020-20-09"
 description: 
 draft: false
-image: 
+image: photoperso.jpg
 keywords: "aboutme"
 slug: aboutme
 title: About me
@@ -15,7 +12,6 @@ title: About me
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-![](/Users/josephperrin/Desktop/JP/ID + photos/Joseph Perrin Photo.png){ width=20% }
 
 Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.  
 Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.

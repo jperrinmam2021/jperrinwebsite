@@ -31,16 +31,6 @@ Climate change and temperature anomalies With the year 2019 concluding the ‘ho
     </item>
     
     <item>
-      <title>About me</title>
-      <link>/blogs/aboutme/aboutme/</link>
-      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
-      
-      <guid>/blogs/aboutme/aboutme/</guid>
-      <description>Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
-Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.</description>
-    </item>
-    
-    <item>
       <title>Covid</title>
       <link>/blogs/covid/covid/</link>
       <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
@@ -87,6 +77,16 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/blogs/aboutme/</guid>
+      <description>Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
+Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>/blogs/aboutme/aboutme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/aboutme/aboutme/</guid>
       <description>Hello, my name is Joseph Perrin, I am a 22 years old french student. I recently started my Master in Analytics and Management (MAM) at London Business School.
 Having lived most of my life in a foreign environment (France, Italy, Switzerland, Netherlands and Belgium) and studied in three educational systems, I have developed great open-mindedness and excellent cross-cultural skills. Pursuing my undergraduate studies in Rotterdam School of Management has further increased my exposure to global business matters.</description>
     </item>
