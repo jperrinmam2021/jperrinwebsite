@@ -66,15 +66,15 @@ disqusShortname = ""
     #    name = "NameOfLink"
     #    url = "UrlOfLink"
 
-    # Button Style 1
+    Button Style 1
     [[params.navigation.button1]]
       name = "My Work"
       url = "blogs"
 
-    # Button Style 2
-    #[[params.navigation.button2]]
-     # name = "Log In"
-     # url = "#"
+    Button Style 1
+    [[params.navigation.button1]]
+     name = "About me"
+     url = "#"
 
 
   # Banner section
@@ -95,7 +95,7 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "/blogs/blog1"
+      url = "blogs/blog1"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
@@ -104,31 +104,31 @@ disqusShortname = ""
       url = "blogs/temperatureanalysis"
 
     [[params.tiles.showcase]]
-      title = "XXXX"
-      subtitle = "Another Analysis from the Homework"
-      image = "pic03.jpg"
-      url = "blogs/magna"
+      title = "Covid-19 Analysis"
+      subtitle = "How does morbidity and admittance to ICU influence Covid-19 death rate"
+      image = "covid.jpg"
+      url = "blogs/covid"
 
     [[params.tiles.showcase]]
-      title = "Ipsum"
-      subtitle = "Nisl Sed Aliquam"
-      image = "pic04.jpg"
-      url = "blogs/ipsum"
+      title = "Movie Director Analysis"
+      subtitle = "Is the difference between average rating of two directors statistically significant? "
+      image = "lighthouse.jpg"
+      url = "blogs/imdb"
 
-    [[params.tiles.showcase]]
-      title = "Consequat"
-      subtitle = "Ipsum Dolor Sit Amet"
-      image = "pic05.jpg"
-      url = "blogs/ipsum"
+    #[[params.tiles.showcase]]
+     # title = "Consequat"
+      #subtitle = "Ipsum Dolor Sit Amet"
+    #  image = "pic05.jpg"
+     # url = "blogs/ipsum"
 
-    [[params.tiles.showcase]]
-      title = "Etiam"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic06.jpg"
-      url = "blogs/ipsum"
+#    [[params.tiles.showcase]]
+ #     title = "Etiam"
+  #    subtitle = "Feugiat Amet Tempus"
+   #   image = "pic06.jpg"
+    #  url = "blogs/ipsum"
     # You can make more showcases by copy and pasting the code above
 
-  [params.blog]
+#  [params.blog]
     # All blogs defined in their own files. You can find example blogs
     # at 'exampleSite/content/blogs'. Copy the 'blogs' folder into the 'content' directory
     # at the root of this Hugo site.
