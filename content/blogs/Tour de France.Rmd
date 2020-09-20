@@ -1,0 +1,356 @@
+---
+title: "Tour de France Analysis"
+author: "Joseph"
+date: "9/16/2020"
+output: html_document
+---
+
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+                      fig.width=6.75, 
+                      fig.height=6.75,
+                      fig.align = "center",
+                      error = TRUE, 
+                      echo = TRUE
+                      )
+```
+
+
+```{r load-libraries,echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(janitor)
+library(skimr)
+library(vroom)
+library(mosaic)
+library(here)
+library(rmarkdown)
+library(ggExtra)
+library(stringr)
+library(dplyr)
+library(reshape2)
+library(tidyr)
+library(forcats)
+
+#remotes::install_github("kjhealy/socviz")
+library(socviz)
+```
+
+
+As the Tour de France 2020 is currently underway, the peloton will have to ride over 3500km in a bit less than 3 weeks. While the outcome of this year's Tour, the first one to happen in September, is quite certain, this race is usually the theatre of much suspense and drama. Every year since 1903, the Tour de France is a cycling race taking place in the summer which slowly became inherent to the french culture. Today, any citizen will closely follow the route of the Tour and hope for it to pass by its village and get the chance to see the 'real' Maillot Jaune (leader of general classification). 
+But while this race is globally known for its difficulty, let us get a closer look to its history. 
+
+
+```{r ataglace dataset, echo=FALSE, warning=FALSE}
+# Let's start by downloading the historical records of the Tour de France from 2018 in csv.
+
+pretourdefrance <- read_csv("/Users/josephperrin/Desktop/London Business School/jperrinwebsite/data/2018_historical_guide.csv")
+
+glimpse(pretourdefrance)
+
+pretourdefrance$Pace <- as.numeric(as.character(pretourdefrance$Pace))
+
+# add in NA for years when there were no Tour (WWI and WWII)
+names(pretourdefrance)[1] <- 'Year'
+all_years <- data.frame(Year=seq(min(pretourdefrance$Year), max(pretourdefrance$Year), by=1))
+tourdefrance <- merge(all_years, pretourdefrance, all=TRUE)
+
+
+```
+
+### Tour de France Overview
+
+#### The Tour de France travels less distance, but the pace is dramatically increasing
+
+```{r ataglance pace and distance, echo=FALSE, warning=FALSE}
+# Make a plot with two different Y-axis on the same plot
+ggplot(data = tourdefrance) + 
+  geom_point(aes(x = Year, y = Distance), color = 'navy') +
+  geom_point(data = tourdefrance, aes(x = Year, y = Pace*100), color = '#ffd942') +
+  scale_y_continuous(sec.axis = sec_axis(~./100, name = 'Pace (in km/h)'))+ 
+  ggtitle('Stage distances are getting shorter, while pace is increasing', subtitle = 'Historical Distance and Pace of the Tour de France') +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.y.right = element_text(color = '#ffd942'),
+        axis.title.y.right = element_text(color = '#ffd942'), 
+        axis.text.y=element_text(color = 'navy'),
+        axis.title.y=element_text(color = 'navy'), 
+        axis.title.x = element_blank()) 
+```
+
+
+
+```{r number of stages, echo=FALSE, warning=FALSE, fig.width =5, fig.height=3}
+# Make a plot with displaying the evolution of the number of stages along the years
+ggplot(data = tourdefrance) + 
+  geom_smooth(aes(x = Year, y = Stages), color = 'navy') +
+  ggtitle('Number of stages increased since 1903', subtitle = 'Number of stages per Tour de France')
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 4), 
+        axis.title.x = element_blank()) 
+```
+
+
+```{r records, echo=FALSE, warning=FALSE}
+# Let's display the record holders for the Tour de France
+
+distancerecords <- tourdefrance %>%
+  group_by(Year) %>% 
+  summarise(fastest_pace = max(Pace, na.rm=TRUE), 
+         lowest_pace = min(Pace, na.rm=TRUE), 
+         longest_tour = max(Distance, na.rm=TRUE), 
+         shortest_tour = min(Distance, na.rm=TRUE)
+            ) %>% 
+  head(1)
+
+col_orders <- c("Fastest Pace", "Lowest Pace", "Longest Distance", "Shortest Distance")
+
+distancerecords2 <- distancerecords[col_orders,]
+distancerecords2
+
+```
+
+The first Tour de France was very short and consisted of only 8 stages. Rapidly, the number of stages increased and so did the distance of each Tour. Indeed the first Tours were almost 5000 km long on average, while in recent years the Tour de France was shorter (~3500km).
+
+Concerning the speed of the riders, the professionalisation of the sport and the technological advances had the effect of dramatically increasing the speed of the peloton. The slowest Tour de France was run at an average speed of 28km/h while Lance Armstrong won one of his Tours at an average speed of over 41km/h. 
+
+
+**Records **  
+Fastest Pace: *Lance Armstron (41.7 km/h)*  
+Slowest Pace: *Firmin Lambot (21.7 km/h)*  
+Shortest Tour: *1903, 1904 (2428 km)*  
+Shortest Modern Tour: *2002 (3278 km)*  
+Longest Tour: *1926 (5745 km)*
+
+#### More Cyclists Competing in the Tour de France are Finishing the Race
+
+```{r ataglance completion, echo=FALSE, warning=FALSE}
+ggplot(data = tourdefrance) + geom_point(aes(x = Year, y = Ended/Started*100), color="steelblue") +
+  geom_point(data = subset(tourdefrance, Year %in% 1998), aes(x = Year, y = Ended/Started*100), color="tomato") + 
+  geom_text(data =  subset(tourdefrance, Year %in% 1998), aes(x = Year * 1.003, y = Ended/Started*100*1.02, label = 1998)) + 
+  ggtitle('Historical Percentage Tour de France Finishers') +
+  ylab('% of Cyclists Completing the Tour') + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+In the early days of the Tour de France, cyclists could fail to finish a tour for a variety of reasons: disqualification due to cheating by taking a train instead of cycling, falling asleep at the side of the road, and (of course) injuries. There are more rules that can lead to elimination in the modern day tour. Doping and taking performance enhancement drugs is an obvious one. Another rule would be that participants must finish within a certain percentage of time from the stage winner to avoid elimination.
+
+As the years pass, more and more participating cyclists tend to finish the whole tour. We do notice on exception in the 1998 Tour, where only marginally more than half the participants managed to complete the race. What happened?
+
+**The 1998 Tour de France**  
+Longtime Tour watchers would immediately recognize this Tour as the "Tour du Dopage" as well as the year of the Festina affair. Two full teams, Festina and TVM were expelled due to evidence retrieved from police involvement. The final mountain stage, Stage 17, was annulled due to a rider's strike, during which many more teams decided to abandom the race. Ultimately, with 7 out of 21 full teams departing the Tour, it is no surprise that the percent of finishing riders in 1998 was so low.
+
+#### France is the Most Decorated Country (Unsurprisingly)
+
+```{r ataglance winner country, echo=FALSE, warning=FALSE}
+# Identify all the champions who have won the Tour de France more than once
+mWinner <- unique(ataglance$Winner[duplicated(ataglance$Winner)])
+mWinner <- mWinner[!is.na(mWinner)]
+ataglance$multiWinner[which(ataglance$Winner %in% mWinner)] <- as.character(ataglance$Winner[ataglance$Winner %in% mWinner])
+# Reorder the Country to go from most to least wins
+ataglance$Country <- fct_infreq(ataglance$Country)
+ggplot(data = ataglance) + geom_bar(aes(x = Country, fill = multiWinner)) +
+  ggtitle('Distribution of Wins Among Countries') + ylab('# of Champions') + 
+  theme(plot.title = element_text(hjust = 0.5), legend.position="none")
+```
+
+Unsurprisingly, France has the most Tour de France champions (36), with Belgium (18) coming in second and Spain (12) in third. We note that the majority of Tour wins can be accounted for by multiyear champions alone. In fact, looking at the USA, we see that all of the wins can be accounted for by two individuals, Lance Armstrong and Greg LeMond.
+
+**Records**  
+7 Wins: ~~*Lance Armstrong (USA)*~~  
+5 Wins: *Jacques Anquetil (FRA), Eddy Merckx (BEL), Bernard Hinault (GBR), Miguel Indurain (ESP)*  
+4 Wins: *Christopher Froome (GBR)*  
+3 Wins: *Philippe Thys (BEL), Louison Bobet (FRA), Greg LeMond (USA)*  
+2 Wins: *Lucien Petit-Breton (FRA), Firmin Lambot (BEL), Ottavio Bottecchia (ITA), Nicolas Frantz (LUX), André Leducq (FRA), Antonin Magne (FRA), Sylvère Maes (BEL), Gino Bartali (ITA), Fausto Coppi (ITA), Bernard Thévenet (FRA), Laurent Fignon (FRA), Alberto Contador (ESP)*
+
+
+### Tour de France By Stages
+
+The overall Tour de France is won by the cyclist that has the fastest culmulative time. However, there the fastest rider of each stage is still wildly celebrated and their wins contribute to the points classification as well as the team classification. Here, we take a closer look at the Tour de France Stage Winners.
+
+```{r stagedetails, echo=FALSE, warning=FALSE}
+# Historic Tour De France Dataset from Kaggle
+stage_details <- read.csv2(file = '../input/tour-de-france-historical-tour-2018/stages_TDF.csv', header = TRUE, sep = ',', stringsAsFactors = TRUE, encoding = 'UTF-8')
+# add year column for stage_details
+# summary(stage_details)
+stage_details$Year <- as.numeric(str_sub(stage_details$Date, -4, -1))
+stage_details$Distance <- as.numeric(as.character(stage_details$Distance))
+stage_details_na <- merge(all_years, stage_details, all=TRUE)
+```
+
+#### Stage Wins Ranking Differ from Tour Wins Ranking
+
+```{r stagedetails2 stage win country distribution, echo=FALSE}
+# Categorize stages as either flats, mountains, or time trials based n the specified type
+stage_cat <- stage_details %>% group_by(Type) %>% summarise(ntype = n())
+unique_types <- tolower(unique(stage_details$Type))
+# Identify time trials, then mountain stages (by mountains or hills), and the remaining is flat stages
+time_trials_types <- unique_types[str_detect(unique_types,"trial")]
+non_tt_types <- setdiff(unique_types,time_trials_types)
+mountain_types <- non_tt_types[str_detect(non_tt_types,"mountain") | str_detect(non_tt_types,"hilly")]
+flat_types <- setdiff(non_tt_types, mountain_types)
+# Set as a category (Cat) in original dataframe
+stage_details$Cat[tolower(stage_details$Type) %in% mountain_types] <- "Mountain"
+stage_details$Cat[tolower(stage_details$Type) %in% flat_types] <- "Flat"
+stage_details$Cat[tolower(stage_details$Type) %in% time_trials_types] <- "Time trial"
+stage_details$Cat <- as.factor(stage_details$Cat)
+
+F1 <- stage_details %>% group_by(Winner_Country, Cat) %>% summarise(count = n())
+F1_total <- stage_details %>% group_by(Winner_Country) %>% summarise(count = n()) %>% arrange(desc(count))
+F1_total <- F1_total[F1_total$Winner_Country!='',]
+top10 <- F1_total[1:10,]
+ggplot(data = subset(F1, Winner_Country %in% top10$Winner_Country)) + 
+  geom_col(aes(x = factor(Winner_Country, level = top10$Winner_Country), y = count, fill = Cat)) +
+  ggtitle('Top 10 Countries in Stage Victories') + xlab('') + ylab('Number of Stage Wins') +
+  labs(fill = 'Stage Type') + theme(plot.title = element_text(hjust = 0.5)) 
+```
+
+Once again, France has is the most decorated country in terms of stage wins with Belgium in second place. While Spain came in third in terms of Tour wins, it was fifth in terms of Stage wins. The Netherlands, which had won 2 Tours total, had won 157 Stages. On the other hand, if we still count the 7 Tour titles by Lance Armstrong, the USA had won 10 Tours while only winning 38 Stages. Winning more stages certainly makes it more likely to win the Tour, it seems that there is some wiggle room in the absolute rankings.
+
+We also note that an unusually large portion of Spain's victories come from Mountain Stages. Perhaps there's something about Spanish racers make them particularly formidable opponents on climbs?
+
+**Records**  
+France: *36 Tour Wins, 691 Stage Wins*  
+Belgium: *18 Tour Wins, 460 Stage Wins*  
+Spain: *12 Tour Wins, 125 Stage Wins*  
+Italy: *10 Tour Wins, 262 Stage Wins*  
+USA: *~~10~~ 3 Tour Wins, 38 Stage Wins*  
+Great Britain: *5 Tour Wins, 67 Stage Wins*  
+Luxembourg: *2 Tour Wins, 70 Stage Wins*  
+Netherlands: *2 Tour Wins, 157 Stage Wins*  
+Switzerland: *2 Tour Wins, 57 Stage Wins*
+
+
+#### ~130 Cyclists are Responsible for Over Half of All Stage Victories
+
+```{r individual stage victories, echo=FALSE, warning=FALSE}
+# Find all unique stage winners
+uStageWinner <- na.omit(unique(stage_details_na$Winner))
+fun1 <- function(x) length(grep(as.character(x), stage_details$Winner))
+stageWinner <- data.frame(uStageWinner)
+stageWinner$Wins <- as.numeric(lapply(uStageWinner, fun1))
+stageWinner <- stageWinner %>% arrange(desc(Wins))
+ggplot(data = stageWinner) + geom_line(aes(x = 1:length(Wins), y = cumsum(Wins)/sum(Wins)*100), 
+                                       color = 'steelblue', size = 2, alpha = 0.8) + 
+  geom_vline(xintercept = 133, alpha = 0.4) + geom_hline(yintercept = 50, alpha = 0.4) +
+  xlab('Ordered Cyclists') + ylab('Percentage of Total Stages') + ggtitle('Cumulative Sum of Stage Wins') +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+When we plot the cumulative sum of the stage wins, we can see that around 130 cyclists can account for more than 50% of all the stages won during the Tour de France. Furthermore, we see that riders who have won a single stage only account for less than 25% of all stages. 
+
+Now, let's hone in on the most decorated riders.
+
+```{r stagedetails top stage riders, echo=FALSE, warning=FALSE}
+F2 <- stage_details %>% group_by(Winner, Cat) %>% summarise(count = n())
+top30 <- stageWinner[order(-stageWinner$Wins),][1:16,]
+ggplot(data =  subset(F2, Winner %in% top30$uStageWinner)) + 
+  geom_col(aes(factor(x = Winner, level = top30$uStageWinner), y = count, fill = Cat)) +
+  labs(fill = 'Stage Type') + ggtitle('Top Stage Winners')  + ylab('Wins') + xlab('') +
+  theme(plot.title = element_text(hjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Eddy Merckx is the most decorated rider with a whopping total of 34 stage wins. Furthermore, we notice that the majority of riders specialize in only two, if not one, of the three different stage categories. However, Eddy managed to win stages of all types. Other well-rounded cyclests include Bernard Hinault, André Leducq, ~~Lance Armstrong~~, Nicolas Frantz, Jacques Anquetil, and Freddy Maertens. With the exception of Maertens, the remaining other all-rounder cyclists have all won the Tour de France during their career. Perhaps that is an indication that in order to win the Tour, one has to be outstanding across a variety of terrains.
+
+**Records**  
+Most Flat Stage Wins: *Mark Cavendish*  
+Most Mountain Stage Wins: *Eddy Merckx*  
+Most Time Trial Stage Wins: *Bernard Hinault*
+
+#### Stage Distances Have Also Shortened Over the Years
+
+```{r stagedetails stage distribution, echo=FALSE, warning=FALSE}
+library(ggExtra)
+p0 <- ggplot(data = stage_details, aes(x = Year, y = Distance)) + geom_point(aes(color = Cat)) +
+  theme(legend.position = c(1,1), legend.justification = c(1,1), legend.background = element_blank()) +
+  ggtitle('Tour de France Stage Distances Through the Years') + labs(col = 'Stage Type')
+ggMarginal(p0, type = "density", margins = c("y"), groupColor = TRUE, groupFill = TRUE)
+#ggMarginal(p0, type = "histogram", margins = c("x"), binwidth = 1, groupColour = TRUE, groupFill = TRUE)
+```
+
+We already knew that over the years, the total distance covered in the Tour de France has decreased. But what about on the individual stage level? Have stage distances decreased as well? It turns out, yes, they have. Every single stage type has decreased in length since the beginning of the Tour de France. 
+
+From the density plot on the right, we can see that generally, Time Trial Stages are the shortest, while Flat and Mountain Stages are comparable in length. We see that there is a small bump representing very long Mountain Stages that appears like an outlier. Upon closer inspection, we realize that long Mountain Stages are a relic of the past, occuring nearly exclusively before ~1930. During this time period, Time Trials were also much longer than modern day Trials.
+
+```{r stage details stage histogram, echo=FALSE, warning=FALSE}
+F3 <- stage_details_na %>% group_by(Year) %>% summarise(ndist = max(Distance), mindist = min(Distance), avgdist = mean(Distance))
+p2 <- ggplot(data = stage_details, aes(x = Year, y = Distance)) + 
+  geom_point(aes(color = Cat), alpha = 0.1) + 
+  ggtitle('Tour de France Stage Distances Through the Years') + labs(col = 'Stage Type') + 
+  geom_ribbon(data = F3, aes(x = Year,  y = avgdist, ymin = mindist, ymax = ndist), alpha = 0.4) + 
+  geom_line(data = F3, aes(x = Year, y = avgdist), size = 1, alpha = 0.9) + 
+  theme(legend.position = c(1,1), legend.justification = c(1,1), legend.background = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+ggMarginal(p2, type = "histogram", margins = c("x"), binwidth = 1, groupColour = TRUE, groupFill = TRUE)
+```
+
+We can also look at the distribution of stage types across the years. We see that when the Tour first began, there were very few stages, each being incredibly long. We also notice that Time Trial Stages were not actually introduced until 1927, when they became the most common stage. This persisted for one more year before they once again became the rarest stage. In recent years, the Tour de France has consisted of 21 stages. The average stage length (denoted by the black line) as well as minimum and maximum stage length (denoted by the grey ribbon) has been consistent as well.
+
+Interestingly, the longest modern stage is shorter than even the shortest stage during the pre-WWI Tour de France. The Tour has changed dramatically over the years!
+
+#### Popular Cities Visited during the Tour de France
+
+![](https://storage.googleapis.com/kagglesdsdata/datasets/52848/100269/France_map_plot.png?GoogleAccessId=web-data@kaggle-161607.iam.gserviceaccount.com&Expires=1537248146&Signature=Q1JBEsrMzr5fjkGJ5WQBugHDsijKkXxCf%2F%2BULBhk%2Be8MsjxA8TREi9cpdWQwHWz%2BFiotUBIC8MU6xAoj4WGUfcj9GCVYxy9yg3jRv7jNQHO7FflrtMt6l8RFG9IHwMUr%2FBztJj6zuaw0NpW8RMMGc1g0cRC0ZWVamxmd9BXzeNkgehpKMCDUWhtoc78%2FpIs6xWJcIvSOqmVWuRXXIdlbx2OcSUQTz3q3r6UGzYY98QEA%2BT4pHuGj8tliPdMwPESwFkhJK5o2NH0S6nMpnZ58k6egRMyBIPntrMs98CM6FmlZOpZ%2F0FKI2Nlf8kL6zghbjDMUmBepXXVjAfQZDyuZTA%3D%3D)
+
+```{r stagedetails maps, echo=FALSE, warning=FALSE, message=FALSE}
+library(ggmap)
+library(ggalt)
+
+france <- data.frame('lon' = 2.213749, 'lat' = 46.22764)  # get longitude and latitude
+france_ggl_map <- qmap("france", zoom=5, source = "google", maptype="roadmap")
+unique_stage_loc <- unique(union(stage_details$Origin, stage_details$Destination))
+unique_stage_geocode <- read.csv2('../input/tour-de-france-historical-tour-2018/unique_stage_geocode.csv', header = TRUE, quote = "", sep = ';', stringsAsFactors = TRUE, encoding = 'UTF-16')
+
+#for(i in 1:length(unique_stage_loc)){
+#  if (is.na(unique_stage_geocode[i,3]) == TRUE){
+#    unique_stage_geocode[i,3:4] <- geocode(unique_stage_loc[i])
+#    Sys.sleep(1.250)
+#  }
+#}
+#write.csv2(unique_stage_geocode[,2:4],'unique_stage_geocode.csv')
+
+stage_loc_origin <- data.frame(stage_details$Origin, stringsAsFactors = FALSE)
+names(stage_loc_origin) <- 'City'
+stage_loc_dest <- data.frame(stage_details$Destination, stringsAsFactors = FALSE)
+names(stage_loc_dest) <- 'City'
+stage_loc_origin <- merge(stage_loc_origin, unique_stage_geocode, by = 'City')
+stage_loc_dest <- merge(stage_loc_dest, unique_stage_geocode, by = 'City')
+france_ggl_map + geom_point(data = stage_loc_origin, aes(x=lon, y=lat), alpha = 0.2, size = 2, color = "tomato") +
+  geom_point(data = stage_loc_dest, aes(x=lon, y=lat), alpha = 0.2, size = 2, color = "tomato") +
+  geom_encircle(aes(x=lon, y=lat))
+```
+
+Unsurprisingly, we see a big, opaque cluster of red around Paris. The capital of France is a highly popular starting point as well as ending point for various stages in the Tour de France. Furthermore, many flat stage time trials take place in this city. How exciting!
+
+We also notice various red dots in other courtries such as Belgium, Switzerland, and Italy. Over the years, the Tour de France has held stages in many neighboring countries. Upon closer inspection, we also notice a big cluster of red dots around the border of France, Switzerland, and Italy, on the patch of green. What could possibly be this popular stage location?
+
+It turns out this is where the famous Alpe d'Huez is located! This location has been used as a mountain stage in the Tour de France (even twice in the same day in 2013!) This famous climb has an average gradient of 8.1%, maximum gradient of 13%, and is a 13.8 km climb through 21 hairpin turns (named after the winner of stages) up to a the summit at 1860 meters.
+
+**Records**  
+Fastest Alpe d'Huez Ascent: *Alberto Contador (37' 30") during the 2010 Critérium du Dauphiné*  
+First Alpe d'Huez Stage Winner: *Fausto Coppi (1952)*
+
+### Conclusion and Next Steps
+
+It's so interesting to see historial events emerge as outliers from this whirlwind tour of the history of the Tour de France. From identifying winners to looking at distance and stage trends, we can see that the Tour de France today is a very different race from the one that was started in 1903.
+
+In the future, I would love to look in more detail about each individual cyclist's performance and look for trends through the years. From what I understand, this data can be scraped from the [Official Tour de France website](https://www.letour.fr/en/history). This has been done by Thomas Camminady as stated on his [website](https://www.camminady.org/every-cyclist-of-the-tour-de-france-in-a-single-csv-file/). When I get a chance, I would love to do some exploratory data analysis on this dataset.
+
+
+### Final Note
+I was inspired to work on a Tour de France dataset thanks to the documentary "**Eat, Race, Win**". As someone very new to the sport of cycling, the Tour de France, I am sure there are mistakes in my interpretations. Any advice, suggestions, or corrections are welcomed!
+
+It seems that I am having trouble with Kaggle's RMarkdown in getting ggExtra to update to v0.8, as well as trouble with geocode in getting a map to visualized. In this case, I simply enclosed an image of what the visualization should have looked like. To recreate these visualizations, the script should work (just not on Kaggle). Alternatively, for all the information regarding this analysis, please visit [my github](https://github.com/jamminliu/Tour-de-France-Exploration)
+
+**Sources:**  
+[Wikipedia](https://en.wikipedia.org/wiki/Tour_de_France)  
+[Le Tour de France Official Website](https://www.letour.fr/en/history)  
+[Stage Details Dataset](https://www.kaggle.com/ralle360/historic-tour-de-france-dataset) by RasmusFiskerBang on [Kaggle](www.kaggle.com)  

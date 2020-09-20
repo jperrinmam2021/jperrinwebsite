@@ -1,10 +1,10 @@
 # Site settings
-baseURL = "https://jperrinmam2021.netlify.app/"
+baseURL = "https://jperrinmam2021.netlify.app"
 languageCode = "en-us"
 title = "Portfolio website for Joseph Perrin"
 theme = "forty"
 
-# Enter your tracking code to enable Google Analytics
+# Enter your tracking code to enable Google Analyticsd
 googleAnalytics = ""
 
 # Enter your disqus shortname to enable comments
@@ -72,9 +72,9 @@ disqusShortname = ""
       url = "blogs"
 
     # Button Style 2
-    [[params.navigation.button2]]
-      name = "Log In"
-      url = "#"
+    #[[params.navigation.button2]]
+     # name = "Log In"
+     # url = "#"
 
 
   # Banner section
