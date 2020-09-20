@@ -74,7 +74,7 @@ disqusShortname = ""
     #Button Style 2
     [[params.navigation.button2]]
      name = "About me"
-     url = "blogs/aboutme"
+     url = "pages/aboutme"
 
 
   # Banner section
@@ -95,25 +95,25 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "public/blogs/tourdefrance"
+      url = "pages/tourdefrance"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
       subtitle = "How did global temperature evolve since the 19th century ?"
       image = "climatechange.jpg"
-      url = "public/blogs/temperatureanalysis"
+      url = "pages/temperatureanalysis"
 
     [[params.tiles.showcase]]
       title = "Covid-19 Analysis"
       subtitle = "How does morbidity and admittance to ICU influence Covid-19 death rate"
       image = "covid.jpg"
-      url = "public/blogs/covid"
+      url = "pages/covid"
 
     [[params.tiles.showcase]]
       title = "IMDB Rating Analysis"
       subtitle = "Is the difference in rating of movie directors statistically significant?"
       image = "lighthouse.jpg"
-      url = "public/blogs/imdb"
+      url = "pages/imdb"
 
     #[[params.tiles.showcase]]
      # title = "Consequat"
