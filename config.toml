@@ -95,13 +95,13 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "public/blogs/tourdefrance"
+      url = "/blogs/blog1"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
       subtitle = "How did global temperature evolve since the 19th century ?"
       image = "climatechange.jpg"
-      url = "blogs/tempus"
+      url = "blogs/temperatureanalysis"
 
     [[params.tiles.showcase]]
       title = "XXXX"
