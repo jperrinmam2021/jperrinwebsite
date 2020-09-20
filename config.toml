@@ -56,7 +56,7 @@ disqusShortname = ""
     #  url = "blogs/ipsum"
 
     [[params.navigation.links]]
-      name = "Elements"
+      name = "About me"
       url = "elements.html"
 
     # Add custom links here by uncommenting code below. To remove links just delete
@@ -81,8 +81,8 @@ disqusShortname = ""
   [params.banner]
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
-    title = "Hi, my name is Forty"
-    subtitle = "A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP\nAND RELEASED UNDER THE CREATIVE COMMONS."
+    title = "Hi, my name is Joseph"
+    subtitle = "Here you will find my researches and  analyses n\ on subjects that are important to me. "
     buttonText = "Get Started"
 
 
