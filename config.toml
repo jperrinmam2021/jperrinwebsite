@@ -71,7 +71,7 @@ disqusShortname = ""
       name = "My Work"
       url = "blogs"
 
-    Button Style 2
+    #Button Style 2
     [[params.navigation.button2]]
      name = "About me"
      url = "#"
