@@ -1,14 +1,8 @@
 ---
-categories:
-- ""
-- ""
-date: ""
-description: Lorem Etiam Nullam
-draft: false
-image: photoperso.jpg
-keywords: ""
-slug: About me
-title: About me
+title: "About me"
+author: "Joseph"
+date: "9/16/2020"
+output: html_document
 ---
 
 ![](/Users/josephperrin/Desktop/JP/ID + photos/Joseph Perrin Photo.png){ width=10% }
