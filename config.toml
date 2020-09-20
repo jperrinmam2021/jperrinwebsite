@@ -55,9 +55,9 @@ disqusShortname = ""
      # name = "Generic Blog"
     #  url = "blogs/ipsum"
 
-    [[params.navigation.links]]
-      name = "Elements"
-      url = "elements.html"
+    #[[params.navigation.links]]
+     # name = "Elements"
+     # url = "elements.html"
 
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
@@ -82,7 +82,7 @@ disqusShortname = ""
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
     title = "Hi, my name is Joseph"
-    subtitle = "Here you will find my researches and  analyses n\ on subjects that are important to. "
+    subtitle = "Here you will find my researches and  analyses on subjects that are important to. "
     buttonText = "Get Started"
 
 
