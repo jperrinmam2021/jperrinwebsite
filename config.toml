@@ -95,7 +95,7 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "blogs/blog1"
+      url = "blogs/tourdefrance"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
@@ -110,7 +110,7 @@ disqusShortname = ""
       url = "blogs/covid"
 
     [[params.tiles.showcase]]
-      title = "Movie Analysis"
+      title = "IMDB rating analysis"
       subtitle = "Nisl Sed Aliquam"
       image = "lighthouse.jpg"
       url = "blogs/imdb"
@@ -138,13 +138,10 @@ disqusShortname = ""
   # Section Type Two
   [params.two]
     enable = true
-    title = "Massa libero"
-    subtitle = """Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-    Mauris aliquet magna magna sed nunc rhoncus pharetra. 
-    Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
-    Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
-    Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus."""
-    buttonText = "Get Started"
+    title = "About me"
+    subtitle =   """My name is Joseph Perrin, I am 22 years-old french student. I recently started my Master in Analytics and Management at London Business School.
+    """
+    buttonText = "More about me"
     url = "blogs"
 
 
