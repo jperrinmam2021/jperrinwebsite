@@ -68,7 +68,7 @@ disqusShortname = ""
 
     # Button Style 1
     [[params.navigation.button1]]
-      name = "Get Started"
+      name = "My Work"
       url = "blogs"
 
     # Button Style 2
@@ -82,8 +82,8 @@ disqusShortname = ""
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
     title = "Hi, my name is Joseph"
-    subtitle = "Here you will find my researches and  analyses on subjects that are important to. "
-    buttonText = "Get Started"
+    subtitle = "Here you will find my researches and  analyses on subjects that are important to me "
+    buttonText = "My Work"
 
 
   # Tiles Section
