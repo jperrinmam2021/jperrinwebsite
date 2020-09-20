@@ -3,6 +3,8 @@ title: "About me"
 author: "Joseph"
 date: "9/16/2020"
 output: html_document
+slug: blog2
+title: blog2
 ---
 
 ![](/Users/josephperrin/Desktop/JP/ID + photos/Joseph Perrin Photo.png){ width=10% }
