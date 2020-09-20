@@ -92,20 +92,20 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "NYT Mask"
-      subtitle = "How does mask acceptace varies in the US?"
-      image = "pic07.jpg"
+      title = "Tour de France"
+      subtitle = "A quick review of the most important cycling race in the World"
+      image = "tourdefrance.jpg"
       url = "blogs/blog5"
 
     [[params.tiles.showcase]]
-      title = "Tempus"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic02.jpg"
+      title = "Temperature Variation Analysis"
+      subtitle = "How did global temperature evolve since the 19th century ?"
+      image = "climatechange.jpg"
       url = "blogs/tempus"
 
     [[params.tiles.showcase]]
-      title = "Magna"
-      subtitle = "Lorem Etiam Nullam"
+      title = "XXXX"
+      subtitle = "Another Analysis from the Homework"
       image = "pic03.jpg"
       url = "blogs/magna"
 
