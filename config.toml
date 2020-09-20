@@ -95,7 +95,7 @@ disqusShortname = ""
       title = "Tour de France"
       subtitle = "A quick review of the most important cycling race in the World"
       image = "tourdefrance.jpg"
-      url = "/Users/josephperrin/Desktop/London Business School/jperrinwebsite/content/pages/tourdefrance/Tour de France"
+      url = "/Users/josephperrin/Desktop/London Business School/jperrinwebsite/content/pages/tourdefrance/Tour de France.Rmd"
 
     [[params.tiles.showcase]]
       title = "Temperature Variation Analysis"
