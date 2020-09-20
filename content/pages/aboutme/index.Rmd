@@ -1,8 +1,14 @@
 ---
-title: "About me"
-author: "Joseph"
-date: "9/20/2020"
-output: html_document
+categories:
+- ""
+- ""
+date: ""
+description: 
+draft: false
+image: aboutme.jpg
+keywords: "aboutme"
+slug: index
+title: About me  
 ---
 
 ```{r setup, include=FALSE}
