@@ -74,7 +74,7 @@ disqusShortname = ""
     #Button Style 2
     [[params.navigation.button2]]
      name = "About me"
-     url = "blogs/blog2"
+     url = "blogs/aboutme"
 
 
   # Banner section
@@ -144,7 +144,7 @@ disqusShortname = ""
    In today’s data driven world, I am determined to understand the dynamics of business analytics and learn how to consolidate, visualise and analyse data in a comparative approach. My master at LBS enables me to gain hands-on experience, diving into the spectrum of data analytics methods to create valuable output for any company and its environment.  
     """
     buttonText = "More about me"
-    url = "blogs/blog2"
+    url = "blogs/aboutme"
 
 
   # Contact section
