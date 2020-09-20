@@ -153,7 +153,7 @@ p4 + labs(fill = "Mask acceptance, (Mostly Yes - Mostly No)",
 
 ## Checking for relationships
 
-Does mask use acceptance have any relation with some demographics? Let us explor the relationship between country household income, population, and % who voted republican in 2016
+Does mask use acceptance have any relation with some demographics? Let us explore the relationship between country household income, population, and % who voted republican in 2016
 
 ```{r, ggpairs, cache=TRUE}
 county_masks_full %>% 

@@ -6,6 +6,14 @@ output: html_document
 ---
 
 
+\
+\
+
+![](https://todaycycling.com/wp-content/uploads/2020/09/tadej-pogacar-%C3%A9tape-20-tour-de-france.jpg){ width=50% }
+\
+*Tadej Pogacar, on his way to winning the 2020 Tour de France*
+\
+
 ```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 
@@ -28,6 +36,7 @@ knitr::opts_chunk$set(
 ```{r load-libraries,echo=FALSE}
 library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
 library(janitor)
+library(png)
 library(skimr)
 library(vroom)
 library(mosaic)
@@ -44,18 +53,22 @@ library(forcats)
 library(socviz)
 ```
 
+## Background Information
 
-As the Tour de France 2020 is currently underway, the peloton will have to ride over 3500km in a bit less than 3 weeks. While the outcome of this year's Tour, the first one to happen in September, is quite certain, this race is usually the theatre of much suspense and drama. Every year since 1903, the Tour de France is a cycling race taking place in the summer which slowly became inherent to the french culture. Today, any citizen will closely follow the route of the Tour and hope for it to pass by its village and get the chance to see the 'real' Maillot Jaune (leader of general classification). 
+As the Tour de France 2020 is currently underway, the peloton will have to ride over 3500km in a bit less than 3 weeks. While the outcome of this year's Tour, the first one to happen in September, is quite certain, this race is usually the theatre of much suspense and drama. Every year since 1903, the Tour de France is a cycling race taking place in the summer which slowly became inherent to the french culture. 
+
+Today, any citizen will closely follow the route of the Tour and hope for it to pass by its village and get the chance to see the 'real' Maillot Jaune (leader of general classification). 
 But while this race is globally known for its difficulty, let us get a closer look to its history. 
-
 
 ```{r ataglace dataset, echo=FALSE, warning=FALSE}
 # Let's start by downloading the historical records of the Tour de France from 2018 in csv.
 
 pretourdefrance <- read_csv("/Users/josephperrin/Desktop/London Business School/jperrinwebsite/data/2018_historical_guide.csv")
 
+#Let's get a glimpse of the dataset
 glimpse(pretourdefrance)
 
+#Change variable type to numeric
 pretourdefrance$Pace <- as.numeric(as.character(pretourdefrance$Pace))
 
 # add in NA for years when there were no Tour (WWI and WWII)
@@ -66,16 +79,20 @@ tourdefrance <- merge(all_years, pretourdefrance, all=TRUE)
 
 ```
 
-### Tour de France Overview
+## Tour de France Overview
 
 #### The Tour de France travels less distance, but the pace is dramatically increasing
 
 ```{r ataglance pace and distance, echo=FALSE, warning=FALSE}
 # Make a plot with two different Y-axis on the same plot
 ggplot(data = tourdefrance) + 
+#build left axis
   geom_point(aes(x = Year, y = Distance), color = 'navy') +
+#build right axis
   geom_point(data = tourdefrance, aes(x = Year, y = Pace*100), color = '#ffd942') +
+#arrange the scale
   scale_y_continuous(sec.axis = sec_axis(~./100, name = 'Pace (in km/h)'))+ 
+#let's arrange the titles and elements of the graph
   ggtitle('Stage distances are getting shorter, while pace is increasing', subtitle = 'Historical Distance and Pace of the Tour de France') +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5),
@@ -98,71 +115,110 @@ ggplot(data = tourdefrance) +
         axis.title.x = element_blank()) 
 ```
 
+The first Tour de France was very short and consisted of only 8 stages. Rapidly, the number of stages increased and so did the distance of each Tour. Indeed the first Tours were almost 5000 km long on average, with the longest ever Tour taking place in 1926 (5745km!). In recent years the Tour de France was shorter (~3500km), with the shortest ever distance in the modern era appearing in 2002 with a total distance of 3278km (see table below).
+Concerning the speed of the riders, the professionalization of the sport and the technological advances had the effect of dramatically increasing the speed of the peloton. The slowest Tour de France was run at an average speed of 24km/h while Lance Armstrong won one of his Tours at an average speed of over 41km/h. More recently, the Tour de France average pace stabilised, for evident physical reason (no man could cycle 3 weeks at average 80 km/h !), but also because the UCI (Union Cycliste Internationale) has implemented a growing number of standards and regulation to control the performance of riders. 
 
-```{r records, echo=FALSE, warning=FALSE}
-# Let's display the record holders for the Tour de France
+```{r tourdefrancerecords, echo=FALSE, warning=FALSE}
+#Let us calculate the top 3 fastest riders of the Tour
+fastestpace<- tourdefrance %>%
+  select(Year,Pace, Winner) %>% 
+  arrange(desc(Pace)) %>% 
+  head(3)
+fastestpace
 
-distancerecords <- tourdefrance %>%
-  group_by(Year) %>% 
-  summarise(fastest_pace = max(Pace, na.rm=TRUE), 
-         lowest_pace = min(Pace, na.rm=TRUE), 
-         longest_tour = max(Distance, na.rm=TRUE), 
-         shortest_tour = min(Distance, na.rm=TRUE)
-            ) %>% 
-  head(1)
+#Let us calculate the top 3 slowest riders of the Tour
+slowestpace<- tourdefrance %>%
+  select(Year,Pace, Winner) %>% 
+  arrange(desc(-Pace)) %>% 
+  head(3)
+slowestpace
 
-col_orders <- c("Fastest Pace", "Lowest Pace", "Longest Distance", "Shortest Distance")
+#Let us calculate the top 3 longest Tour
+maxdistance <- tourdefrance %>%
+  select(Year,Distance) %>% 
+  arrange(desc(Distance)) %>% 
+  head(3)
+maxdistance
 
-distancerecords2 <- distancerecords[col_orders,]
-distancerecords2
+#Let us calculate the top 3 shortest Tour
+shortestdistance <- tourdefrance %>%
+  select(Year,Distance) %>% 
+  arrange(desc(-Distance)) %>% 
+  head(3)
+shortestdistance
+
+#Let us calculate the top 3 shortest Tour in the modern Era
+shortestdistancemodern <- tourdefrance %>%
+  select(Year,Distance) %>%
+  filter(Year > 1980) %>% 
+  arrange(desc(-Distance)) %>% 
+  head(3)
+shortestdistancemodern
 
 ```
-
-The first Tour de France was very short and consisted of only 8 stages. Rapidly, the number of stages increased and so did the distance of each Tour. Indeed the first Tours were almost 5000 km long on average, while in recent years the Tour de France was shorter (~3500km).
-
-Concerning the speed of the riders, the professionalisation of the sport and the technological advances had the effect of dramatically increasing the speed of the peloton. The slowest Tour de France was run at an average speed of 28km/h while Lance Armstrong won one of his Tours at an average speed of over 41km/h. 
-
 
 **Records **  
 Fastest Pace: *Lance Armstron (41.7 km/h)*  
-Slowest Pace: *Firmin Lambot (21.7 km/h)*  
+Slowest Pace: *Firmin Lambot (24.7 km/h)*  
 Shortest Tour: *1903, 1904 (2428 km)*  
 Shortest Modern Tour: *2002 (3278 km)*  
 Longest Tour: *1926 (5745 km)*
+\
+\
+#### The number of riders and finishers of the Tour de France increased over time
+\
+```{r tour de france completion, echo=FALSE, warning=FALSE, fig.width =7, fig.height=5}
+#Let us plot the completion rate of riders of the Tour de France
 
-#### More Cyclists Competing in the Tour de France are Finishing the Race
-
-```{r ataglance completion, echo=FALSE, warning=FALSE}
-ggplot(data = tourdefrance) + geom_point(aes(x = Year, y = Ended/Started*100), color="steelblue") +
-  geom_point(data = subset(tourdefrance, Year %in% 1998), aes(x = Year, y = Ended/Started*100), color="tomato") + 
-  geom_text(data =  subset(tourdefrance, Year %in% 1998), aes(x = Year * 1.003, y = Ended/Started*100*1.02, label = 1998)) + 
-  ggtitle('Historical Percentage Tour de France Finishers') +
-  ylab('% of Cyclists Completing the Tour') + 
-  theme(plot.title = element_text(hjust = 0.5))
+tourdefrance %>% 
+  ggplot +
+#Let's define our graph
+  geom_point(aes(x = Year, y = Ended/Started*100), color="navy")+
+  geom_point(data = subset(tourdefrance, Year %in% 1998), aes(x = Year, y = Ended/Started*100), color="tomato") +
+  geom_text(data =  subset(tourdefrance, Year %in% 1998), aes(x = Year * 1.003, y = Ended/Started*100*1.02, label = 1998)) +
+#Let's add some titles
+  ggtitle('More riders are finishing the tour over time', subtitle = "Historical completion rate of the Tour") +
+  ylab('% of Cyclists Completing the Tour') +
+  xlab('Year')
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.y=element_text(color = 'navy'),
+        axis.title.y=element_text(color = 'navy'), 
+        axis.title.x = element_blank()) 
 ```
+\
+The first years of the Tour de France were the theatre of an incredible spectacle between riders who would cycle night and day to join two cities. The lack of preparation and equipment led to many retirements and abandons. At the time, there were quite many disqualification as many occurrences of cheating, such as taking the train or a car to shorten the distance, were reported. However, drinking wine to boost your performance was not illegal!
+\
+In the more recent era of cycling, the falls and crashes are the most common reason for abandons. Another reason explaining disqualifications are the maximum delay rules, which entails that participants must finish the stage under a certain time, a rule which can be difficult for some riders in the mountain stages. 
+\
+Note that the 1998 Tour de France saw the abandon of many cycling teams participating to the Tour due to the "Festina Scandal", one of the first doping scandals of the sport. 
+\
+#### France is the counts the most wins
 
-In the early days of the Tour de France, cyclists could fail to finish a tour for a variety of reasons: disqualification due to cheating by taking a train instead of cycling, falling asleep at the side of the road, and (of course) injuries. There are more rules that can lead to elimination in the modern day tour. Doping and taking performance enhancement drugs is an obvious one. Another rule would be that participants must finish within a certain percentage of time from the stage winner to avoid elimination.
-
-As the years pass, more and more participating cyclists tend to finish the whole tour. We do notice on exception in the 1998 Tour, where only marginally more than half the participants managed to complete the race. What happened?
-
-**The 1998 Tour de France**  
-Longtime Tour watchers would immediately recognize this Tour as the "Tour du Dopage" as well as the year of the Festina affair. Two full teams, Festina and TVM were expelled due to evidence retrieved from police involvement. The final mountain stage, Stage 17, was annulled due to a rider's strike, during which many more teams decided to abandom the race. Ultimately, with 7 out of 21 full teams departing the Tour, it is no surprise that the percent of finishing riders in 1998 was so low.
-
-#### France is the Most Decorated Country (Unsurprisingly)
-
-```{r ataglance winner country, echo=FALSE, warning=FALSE}
+```{r tour de france winner country, echo=FALSE, warning=FALSE}
 # Identify all the champions who have won the Tour de France more than once
 mWinner <- unique(tourdefrance$Winner[duplicated(tourdefrance$Winner)])
 mWinner <- mWinner[!is.na(mWinner)]
 tourdefrance$multiWinner[which(tourdefrance$Winner %in% mWinner)] <- as.character(tourdefrance$Winner[tourdefrance$Winner %in% mWinner])
+
 # Reorder the Country to go from most to least wins
 tourdefrance$Country <- fct_infreq(tourdefrance$Country)
-ggplot(data = tourdefrance) + geom_bar(aes(x = Country, fill = multiWinner)) +
-  ggtitle('Distribution of Wins Among Countries') + ylab('# of Champions') + 
-  theme(plot.title = element_text(hjust = 0.5), legend.position="none")
-```
 
-Unsurprisingly, France has the most Tour de France champions (36), with Belgium (18) coming in second and Spain (12) in third. We note that the majority of Tour wins can be accounted for by multiyear champions alone. In fact, looking at the USA, we see that all of the wins can be accounted for by two individuals, Lance Armstrong and Greg LeMond.
+ggplot(data = tourdefrance) +
+  geom_bar(aes(x = Country, fill = multiWinner)) +
+  ggtitle('France has the largest number of Winners', subtitle = 'Distribution of Tour de France wins by country') +
+  ylab('# of Champions') +  
+  xlab('Country')+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5),
+        axis.text.y=element_text(color = 'navy'),
+        axis.title.y=element_text(color = 'navy'), 
+        axis.title.x = element_blank(),
+        legend.position="none") 
+
+```
+Let us now analyse the victories of the Tour de France, the most prestigious cycling race in the world. 
+With regards to nationality, France counts the most champions with 36 victories. Note however that the last French winner of the tour de France Bernard Hinault was in 1985... Belgium comes second with 18 victories while the Spain is third (12 victories). 
 
 **Records**  
 7 Wins: ~~*Lance Armstrong (USA)*~~  
@@ -171,6 +227,21 @@ Unsurprisingly, France has the most Tour de France champions (36), with Belgium 
 3 Wins: *Philippe Thys (BEL), Louison Bobet (FRA), Greg LeMond (USA)*  
 2 Wins: *Lucien Petit-Breton (FRA), Firmin Lambot (BEL), Ottavio Bottecchia (ITA), Nicolas Frantz (LUX), André Leducq (FRA), Antonin Magne (FRA), Sylvère Maes (BEL), Gino Bartali (ITA), Fausto Coppi (ITA), Bernard Thévenet (FRA), Laurent Fignon (FRA), Alberto Contador (ESP)*
 
+```{r tour de france winners record, echo=FALSE, warning=FALSE}
+
+winningrecords <- tourdefrance %>%
+  select(Winner) %>%
+  na.omit() %>% 
+  group_by(Winner) %>%
+  summarise(Count = count(Winner)) %>%
+  filter(Count>1) %>% 
+  arrange(desc(Count))
+
+winningrecords
+
+```
+
+With regards to individual winners of the Tour de France, the rider with the most victories is Lance Armstrong, which was however convicted of doping a few years and saw all his wins cancelled. 4 riders have won the Tour 5 times, and Christopher Froome who won it 4 times already will try to join them in the classification in the Tour 2021. In total, 21 riders won the Tour at least 2 times. 
 
 ### Tour de France By Stages
 
