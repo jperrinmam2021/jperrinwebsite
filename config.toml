@@ -66,15 +66,15 @@ disqusShortname = ""
     #    name = "NameOfLink"
     #    url = "UrlOfLink"
 
-    Button Style 1
+    # Button Style 1
     [[params.navigation.button1]]
       name = "My Work"
       url = "blogs"
 
-    #Button Style 1
-    #[[params.navigation.button1]]
-   #  name = "About me"
-   #  url = "#"
+    # Button Style 2
+    #[[params.navigation.button2]]
+     # name = "Log In"
+     # url = "#"
 
 
   # Banner section
@@ -110,8 +110,8 @@ disqusShortname = ""
       url = "blogs/covid"
 
     [[params.tiles.showcase]]
-      title = "Movie Director Analysis"
-      subtitle = "Is the difference between average rating of two directors statistically significant? "
+      title = "Movie Analysis"
+      subtitle = "Nisl Sed Aliquam"
       image = "lighthouse.jpg"
       url = "blogs/imdb"
 
@@ -128,7 +128,7 @@ disqusShortname = ""
     #  url = "blogs/ipsum"
     # You can make more showcases by copy and pasting the code above
 
- [params.blog]
+  [params.blog]
     # All blogs defined in their own files. You can find example blogs
     # at 'exampleSite/content/blogs'. Copy the 'blogs' folder into the 'content' directory
     # at the root of this Hugo site.
