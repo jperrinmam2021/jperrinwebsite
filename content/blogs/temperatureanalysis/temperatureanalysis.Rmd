@@ -2,7 +2,7 @@
 date: "2020-09-15"
 description: How did global temperature evolve since the 19th century ?
 draft: false
-image: pic07.jpg
+image:
 keywords: "temperature analysis"
 slug: temperatureanalysis
 title: Temperature Variation Analysis
