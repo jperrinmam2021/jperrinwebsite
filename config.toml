@@ -140,6 +140,7 @@ disqusShortname = ""
     enable = true
     title = "About me"
     subtitle =   """My name is Joseph Perrin, I am 22 years-old french student. I recently started my Master in Analytics and Management at London Business School.
+   In today’s data driven world, I am determined to understand the dynamics of business analytics and learn how to consolidate, visualise and analyse data in a comparative approach. The MSc in Analytics and Management enables me to gain hands-on experience, diving into the spectrum of data analytics methods to create valuable output for any company and its environment.  
     """
     buttonText = "More about me"
     url = "blogs"
